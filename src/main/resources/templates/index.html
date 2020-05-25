@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css" media="screen">
+        #editor {
+          margin-left: 15px;
+          margin-top: 15px;
+          width: 500px;
+          height: 400px;
+        }
+    </style>
+</head>
+<body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ace.js"></script>
+
+
+    <form action="run">
+        <table>
+            <tr>
+                <th>请输入数据库地址:</th>
+                <th><input th:value="${dbPath}" type="text" name="dbPath"></th>
+                <th><input type="submit" value="Search" formaction="search"></th>
+            </tr>
+            <tr>
+                <th>
+                    <textarea th:text="${ids}" name="ids"></textarea>
+                </th>
+                <th>
+                    <input th:value="${id}" type="text" name="id">
+                </th>
+                <th>
+                     <input type="submit" value="Get" formaction="get">
+                </th>
+                <th>
+                     <textarea th:text="${code}" name="code" placeholder="请输入代码..." style="height: 400px;width: 500px"></textarea>
+                </th>
+                <th>
+                     <input type="submit" value="Run">
+                </th>
+                <th>
+                     <textarea th:text="${result}" name="result" placeholder="此处将展示结果"  style="height: 400px;width: 300px"></textarea>
+                </th>
+            </tr>
+
+        </table>
+    </form>
+
+
+<script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/javascript");
+    editor.resize();
+</script>
+</body>
+
+</html>

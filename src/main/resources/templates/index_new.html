@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css" media="screen">
+        #editor {
+          margin-left: 15px;
+          margin-top: 15px;
+          width: 500px;
+          height: 400px;
+        }
+    </style>
+</head>
+<body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ace.js"></script>
+
+
+    <form action="run">
+        <div id="editor">
+         <textarea th:text="${code}" name="code" placeholder="请输入代码..." style="height: 400px;width: 500px"></textarea>
+        </div>
+
+         <input type="submit" value="Run">
+         <textarea  name="result" placeholder="此处将展示结果"  style="height: 400px;width: 300px"></textarea>
+    </form>
+
+
+
+<script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/javascript");
+    editor.resize();
+</script>
+</body>
+
+</html>
