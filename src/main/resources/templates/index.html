@@ -1,106 +1,76 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style type="text/css">
-        @import url("//unpkg.com/element-ui@2.13.2/lib/theme-chalk/index.css");
-.el-row {
-    margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
+<title>ACE in Action</title>
+<style type="text/css" media="screen">
+    #editor {
+        /*position: absolute;*/
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 450px;
+        width: 600px;
     }
-  }
-  .el-col {
-    border-radius: 4px;
-  }
-  .bg-purple-dark {
-    background: #99a9bf;
-  }
-  .bg-purple {
-    background: #d3dce6;
-  }
-  .bg-purple-light {
-    background: #e5e9f2;
-  }
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-  }
-  .row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
-  }
+    #editor2 {
+        /*position: absolute;*/
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 450px;
+        width: 300px;
+    }
 
-    </style>
-
+</style>
 </head>
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ace.js"></script>
 
-<script src="//unpkg.com/vue/dist/vue.js"></script>
-<script src="//unpkg.com/element-ui@2.13.2/lib/index.js"></script>
-<div id="app">
-    <form action="run">
-<el-row>
-  <el-col :span="24"><div class="grid-content bg-purple-dark">
-      欢迎使用！
-  </div></el-col>
-</el-row>
+    <table>
+        <form action="run">
 
-<el-row>
-  <el-col :span="8"><div class="grid-content bg-purple">
-      <span>请输入数据库地址：</span>
-  </div></el-col>
+            <tr>
+                <th>请输入数据库地址:
+                    <input th:value="${dbPath}" type="text" name="dbPath">
+                    <input type="submit" value="Search" formaction="search">
+                </th>
+            </tr>
 
-  <el-col :span="16"><div class="grid-content bg-purple-light">
-      <span><input th:value="${dbPath}" type="text" name="dbPath" style="width: 400px"></span>
-    <span><input type="submit" value="Search" formaction="search"></span>
-  </div></el-col>
-</el-row>
+            <tr>
+                <th>
+                    <textarea th:text="${ids}" name="ids"></textarea>
+                    <input th:value="${id}" type="text" name="id">
+                    <input type="submit" value="Get" formaction="get">
+                </th>
+            </tr>
 
-
-<el-row>
-  <el-col :span="3"><div class="grid-content bg-purple-light">
-      <span><textarea th:text="${ids}" name="ids"></textarea></span>
-  </div></el-col>
-
-  <el-col :span="3"><div class="grid-content bg-purple-light">
-      <span><input th:text="${info}" name="info"></span>
-  </div></el-col>
-
-  <el-col :span="3"><div class="grid-content bg-purple">
-      <span><input th:value="${id}" type="text" name="id"></span>
-  </div></el-col>
-
-  <el-col :span="3"><div class="grid-content bg-purple-light">
-      <span><input type="submit" value="Get" formaction="get"></span>
-
-  </div></el-col>
-  <el-col :span="12"><div class="grid-content bg-purple"></div></el-col>
-</el-row>
-
-<el-row>
-  <el-col :span="11"><div class="grid-content bg-purple">
-      <span><textarea th:text="${code}" name="code" placeholder="请输入代码..." style="height: 400px;width: 565px"></textarea></span>
-  </div></el-col>
-
-  <el-col :span="2"><div class="grid-content bg-purple-light">
-      <span><input type="submit" value="Run"></span>
-  </div></el-col>
+            <tr>
+                <th>
+                    <div th:text="${code}" id="editor"></div>
+                </th>
+                <th  style="width: 50px">
+                    <input type="submit" value="Run">
+                </th>
+                <th>
+                    <div th:text="${result}" id="editor2"></div>
+                </th>
+            </tr>
+        </form>
+    </table>
 
 
-  <el-col :span="11"><div class="grid-content bg-purple">
-      <span><textarea th:text="${result}" name="result" placeholder="此处将展示结果"  style="height: 400px;width: 565px"></textarea></span>
-  </div></el-col>
+<script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.session.setMode("ace/mode/javascript");
+    editor.setOption("wrap", "free");
 
-</el-row>
-</form>
-</div>
-
-    <script>
-        new Vue().$mount('#app')
-    </script>
-
+    var editor2 = ace.edit("editor2");
+    editor2.setTheme("ace/theme/monokai");
+    editor2.session.setMode("ace/mode/javascript");
+    editor2.setOption("wrap", "free");
+</script>
 </body>
 </html>
