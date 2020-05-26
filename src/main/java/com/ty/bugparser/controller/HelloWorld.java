@@ -34,17 +34,18 @@ public class HelloWorld {
         log.warn("传过来的code为:" + code);
         ExecutorImpl executor = new ExecutorImpl();
         String testcaseFileName = executor.writeInFile(code);
+        String prefix = "bash";
+        String bashFileName = "/export/nisl/yhy/javascriptFuzzingOther/test/ty.sh";
         log.warn("新建的测试用例名称为:" + testcaseFileName);
-        String cmd = executor.constructCmd(testcaseFileName);
-        log.warn("要执行的cmd指令为:" + cmd);
 
-        // 以下为生产环境
+        // 以下为测试环境
 //        ExecutorImpl executor = new ExecutorImpl();
-//        String cmd = "java -version";
+//        String cmd = "C:/临时/5-25/ty.bat";
+//        String testcaseFileName = "123";
 
         String result = "";
         try {
-            result = executor.executeScript(cmd, null);
+            result = executor.executeScript(prefix, bashFileName, testcaseFileName, null);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

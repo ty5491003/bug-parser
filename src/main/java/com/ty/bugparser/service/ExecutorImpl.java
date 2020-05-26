@@ -33,49 +33,28 @@ public class ExecutorImpl {
         return "bash" + " " + bashScriptFileName + " " + testcaseFileName;
     }
 
-    /**
-     * 执行命令行指令并捕获结果
-     * @param cmd 命令行指令
-     * @param dir 执行的目录，默认为 null
-     * @return 捕获的结果字符串
-     * @throws Exception
-     */
-    public String executeScript(String cmd, File dir) throws Exception{
+    public String executeScript(String prefix, String bashFileName, String testcaseFileName, File dir) throws Exception{
 
         // 构建缓冲区
-        StringBuilder result = new StringBuilder();
-        Process process = null;
-        BufferedReader bufrIn = null;
-        BufferedReader bufrError = null;
+        StringBuffer result = null;
 
         try {
-            // 执行命令, 返回一个子进程对象（命令在子进程中执行）
-            process = Runtime.getRuntime().exec(cmd, null, dir);
-
-            // 方法阻塞, 等待命令执行完成（成功会返回0）
-            process.waitFor();
-
             // 获取命令执行结果, 有两个结果: 正常的输出 和 错误的输出（PS: 子进程的输出就是主进程的输入）
-            bufrIn = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
-            bufrError = new BufferedReader(new InputStreamReader(process.getErrorStream(), "UTF-8"));
+            result = new StringBuffer();
 
-            // 读取输出
-            String line = null;
-            while ((line = bufrIn.readLine()) != null) {
-                result.append(line).append('\n');
+            ProcessBuilder pb = new ProcessBuilder(prefix, bashFileName, testcaseFileName);
+            pb.redirectErrorStream(true);
+            Process proc = pb.start();
+            BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            String s;
+            while ((s = stdInput.readLine()) != null) {
+                result.append(s).append("\n");
             }
-            while ((line = bufrError.readLine()) != null) {
-                result.append(line).append('\n');
-            }
+//            proc.waitFor();
+            stdInput.close();
 
-        } finally {
-            closeStream(bufrIn);
-            closeStream(bufrError);
-
-            // 销毁子进程
-            if (process != null) {
-                process.destroy();
-            }
+        } catch (IOException e) {
+                e.printStackTrace();
         }
 
         // 返回执行结果
