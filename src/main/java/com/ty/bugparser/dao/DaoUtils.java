@@ -13,7 +13,6 @@ public class DaoUtils {
 
     public DaoUtils(String dbPath) {
         DB_URL = "jdbc:sqlite:" + dbPath;
-        log.warn("建立DaoUtils之后，DB_URL为" + DB_URL);
     }
 
     public List<String> search() {
@@ -23,12 +22,13 @@ public class DaoUtils {
         ResultSet rs = null;
         try {
             connection = createConnection();
+            log.warn("Build search connection success.");
             Statement statement = connection.createStatement();
             String sql = "SELECT output_id FROM SuspiciousResults";
-
             // 执行查询语句
             log.warn("将执行的sql语句是:" + sql);
             rs = statement.executeQuery(sql);
+            log.warn("Search finished!");
             ids = new ArrayList<>();
             while (rs.next()) {
                 Object object = rs.getObject(1);
@@ -60,6 +60,7 @@ public class DaoUtils {
         ResultSet rs = null;
         try {
             connection = createConnection();
+            log.warn("Build get connection success.");
             Statement statement = connection.createStatement();
             String sql = "SELECT testcase FROM Testcases WHERE Testcases.id = (SELECT testcase FROM HarnessResults WHERE id=" + id + ")";
             // 执行查询语句
@@ -85,8 +86,9 @@ public class DaoUtils {
     }
 
     // 创建Sqlite数据库连接
-    public static Connection createConnection() throws SQLException, ClassNotFoundException {
+    public Connection createConnection() throws SQLException, ClassNotFoundException {
         Class.forName(CLASS_NAME);
+        log.warn("Building Connection. The DB_URL is:" + DB_URL);
         return DriverManager.getConnection(DB_URL);
     }
 
