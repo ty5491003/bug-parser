@@ -19,49 +19,93 @@
         bottom: 0;
         left: 0;
         height: 450px;
-        width: 300px;
+        width: 600px;
     }
 
 </style>
+
+
+<!--三个Ajax请求-->
+<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+<script>
+  function search() {
+    $.post({
+        url: "/search",
+        data: {dbPath : $("#dbPath").val()},
+        success: function(data) {
+            // data为回传的值，将其赋给ids的文本框中
+            $("#ids").text(data);
+        },
+        error: function(){ alert("Ajax出错啦！")}
+    });
+  }
+</script>
+<script>
+  function get() {
+    $.post({
+        url: "/get",
+        data: {dbPath : $("#dbPath").val(), id : $("#id").val()},
+        success: function(data) {
+            // data为回传的值，将其赋给ids的文本框中
+            setValue(editor, data);
+        },
+        error: function(){ alert("Ajax出错啦！")}
+    });
+  }
+</script>
+<script>
+  function run() {
+    $.post({
+        url: "/run",
+        data: {code : $("#editor").val()},
+        success: function(data) {
+            // data为回传的值，将其赋给ids的文本框中
+            setValue(editor2, data);
+        },
+        error: function(){ alert("Ajax出错啦！")}
+    });
+  }
+</script>
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ace.js"></script>
 
     <table>
-        <form action="run">
+<!--        <form action="run">-->
 
             <tr>
                 <th>请输入数据库地址:
-                    <input th:value="${dbPath}" type="text" name="dbPath">
-                    <input type="submit" value="Search" formaction="search">
+                    <input type="text" name="dbPath" id="dbPath" style="width: 300px"/>
+                    <input type="button" value="Search" onclick="search()" />
                 </th>
             </tr>
 
             <tr>
                 <th>
-                    <textarea th:text="${ids}" name="ids"></textarea>
-                    <input th:value="${id}" type="text" name="id">
-                    <input type="submit" value="Get" formaction="get">
+                    <textarea name="ids" id="ids"></textarea>
+                    <input type="text" name="id" id="id">
+                    <input type="button" value="Get" onclick="get()">
                 </th>
             </tr>
 
             <tr>
                 <th>
-                    <div th:text="${code}" id="editor"></div>
+                    <p id="editor">function (){}</p>
                 </th>
                 <th  style="width: 50px">
-                    <input type="submit" value="Run">
+                    <input type="button" value="Run" onclick="run()">
                 </th>
                 <th>
-                    <div th:text="${result}" id="editor2"></div>
+                    <p id="editor2"></p>
                 </th>
             </tr>
-        </form>
+<!--        </form>-->
     </table>
 
 
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
+
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/monokai");
     editor.session.setMode("ace/mode/javascript");
@@ -71,6 +115,10 @@
     editor2.setTheme("ace/theme/monokai");
     editor2.session.setMode("ace/mode/javascript");
     editor2.setOption("wrap", "free");
+
+    function setValue(node, data) {
+        node.setValue(data);
+    }
 </script>
 </body>
 </html>

@@ -25,92 +25,50 @@ public class HelloWorld {
     }
 
     @RequestMapping("/run")
-    public String run(String code,
-                      String result,
-                      String dbPath,
-//                      String ids,
-                      String id,
-                      Model model) {
-        System.out.println(code);
-        // 以下为正式版
+    @ResponseBody
+    public String run(String code) {
+        // 以下为生产环境
         ExecutorImpl executor = new ExecutorImpl();
         String testcaseFileName = executor.writeInFile(code);
         String cmd = executor.constructCmd(testcaseFileName);
 
-        // 以下为测试版
+        // 以下为生产环境
 //        ExecutorImpl executor = new ExecutorImpl();
 //        String cmd = "java -version";
 
-        String newResult = null;
+        String result = "";
         try {
-            newResult = executor.executeScript(cmd, null);
+            result = executor.executeScript(cmd, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        // 不变的
-        model.addAttribute("id", id);
-//        model.addAttribute("ids", ids);
-        model.addAttribute("dbPath", dbPath);
-        model.addAttribute("code", code);
-
-        // 要变的
-        model.addAttribute("result", newResult);
-
-        return "index";
+        return result;
     }
 
     @RequestMapping("/search")
-    public String search(String code,
-                      String result,
-                      String dbPath,
-//                      String ids,
-                      String id,
-                      Model model) {
+    @ResponseBody
+    public String search(String dbPath) {
 
         // 从dbPath中查询所有可疑的id号
         SearchDao searchDao = new SearchDaoImpl();
         List<String> allNeedAnalyseIds = searchDao.getAllNeedAnalyseIds(dbPath);
 
         // 将数组的id转化为字符串，以便放入textarea
-        StringBuilder newIds = new StringBuilder();
+        StringBuilder ids = new StringBuilder();
         for (String aId : allNeedAnalyseIds) {
-            newIds.append(aId).append("\n");
+            ids.append(aId).append("\n");
         }
 
-        // 不变的
-        model.addAttribute("id", id);
-        model.addAttribute("result", result);
-        model.addAttribute("dbPath", dbPath);
-        model.addAttribute("code", code);
-
-        // 要变的
-        model.addAttribute("ids", newIds.toString());
-
-        return "index";
+        return ids.toString();
     }
 
     @RequestMapping("/get")
-    public String get(String code,
-                      String result,
-                      String dbPath,
-//                      String ids,
-                      String id,
-                      Model model) {
+    @ResponseBody
+    public String get(String dbPath, String id) {
 
         // 从dbPath中，根据id查询对应的测试用例
         SearchDao searchDao = new SearchDaoImpl();
-        String newCode = searchDao.getTestcaseById(dbPath, Integer.parseInt(id));
-        System.out.println(newCode);
-        // 不变的
-        model.addAttribute("id", id);
-        model.addAttribute("result", result);
-        model.addAttribute("dbPath", dbPath);
-//        model.addAttribute("ids", ids);
-
-        // 要变的
-        model.addAttribute("code", newCode);
-
-        return "index";
+        return searchDao.getTestcaseById(dbPath, Integer.parseInt(id));
     }
 }
