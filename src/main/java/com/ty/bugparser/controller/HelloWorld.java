@@ -4,10 +4,10 @@ import com.ty.bugparser.dao.SearchDao;
 import com.ty.bugparser.dao.SearchDaoImpl;
 import com.ty.bugparser.service.ExecutorImpl;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.File;
 import java.util.List;
 
 @Controller
@@ -41,8 +41,13 @@ public class HelloWorld {
             result = executor.executeScript(cmd, null);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            // 删除该测试用例临时文件
+            File tempFile = new File(testcaseFileName);
+            if (tempFile.exists() && tempFile.isFile()) {
+                tempFile.delete();
+            }
         }
-
         return result;
     }
 
