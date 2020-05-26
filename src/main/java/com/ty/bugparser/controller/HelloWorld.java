@@ -3,6 +3,7 @@ package com.ty.bugparser.controller;
 import com.ty.bugparser.dao.SearchDao;
 import com.ty.bugparser.dao.SearchDaoImpl;
 import com.ty.bugparser.service.ExecutorImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -11,11 +12,13 @@ import java.io.File;
 import java.util.List;
 
 @Controller
+@Slf4j
 public class HelloWorld {
 
     @RequestMapping("/hello")
     @ResponseBody
     public String sayHello() {
+        log.warn("走到hello了！！！");
         return "Hello, Springboot!";
     }
 
@@ -28,9 +31,12 @@ public class HelloWorld {
     @ResponseBody
     public String run(String code) {
         // 以下为生产环境
+        log.warn("传过来的code为:" + code);
         ExecutorImpl executor = new ExecutorImpl();
         String testcaseFileName = executor.writeInFile(code);
+        log.warn("新建的测试用例名称为:" + testcaseFileName);
         String cmd = executor.constructCmd(testcaseFileName);
+        log.warn("要执行的cmd指令为:" + cmd);
 
         // 以下为生产环境
 //        ExecutorImpl executor = new ExecutorImpl();
@@ -48,17 +54,18 @@ public class HelloWorld {
                 tempFile.delete();
             }
         }
+        log.warn("执行完指令的result为:" + result);
         return result;
     }
 
     @RequestMapping("/search")
     @ResponseBody
     public String search(String dbPath) {
-
+        log.warn("收到的dbPath参数为:" + dbPath);
         // 从dbPath中查询所有可疑的id号
         SearchDao searchDao = new SearchDaoImpl();
         List<String> allNeedAnalyseIds = searchDao.getAllNeedAnalyseIds(dbPath);
-
+        log.warn("查询到的allNeedAnalyseIds结果为"+allNeedAnalyseIds);
         // 将数组的id转化为字符串，以便放入textarea
         StringBuilder ids = new StringBuilder();
         for (String aId : allNeedAnalyseIds) {

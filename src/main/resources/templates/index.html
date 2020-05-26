@@ -24,13 +24,12 @@
 
 </style>
 
-
 <!--三个Ajax请求-->
 <script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 <script>
   function search() {
     $.post({
-        url: "/search",
+        url: "search",
         data: {dbPath : $("#dbPath").val()},
         success: function(data) {
             // data为回传的值，将其赋给ids的文本框中
@@ -43,7 +42,7 @@
 <script>
   function get() {
     $.post({
-        url: "/get",
+        url: "get",
         data: {dbPath : $("#dbPath").val(), id : $("#id").val()},
         success: function(data) {
             // data为回传的值，将其赋给ids的文本框中
@@ -54,10 +53,10 @@
   }
 </script>
 <script>
-  function run() {
+  function run(code) {
     $.post({
-        url: "/run",
-        data: {code : $("#editor").val()},
+        url: "run",
+        data: {code : code},
         success: function(data) {
             // data为回传的值，将其赋给ids的文本框中
             setValue(editor2, data);
@@ -90,18 +89,17 @@
 
             <tr>
                 <th>
-                    <p id="editor">function (){}</p>
+                    <div id="editor">function (){}</div>
                 </th>
                 <th  style="width: 50px">
-                    <input type="button" value="Run" onclick="run()">
+                    <input type="button" value="Run" onclick="run(editor.getValue())">
                 </th>
                 <th>
-                    <p id="editor2"></p>
+                    <div id="editor2"></div>
                 </th>
             </tr>
 <!--        </form>-->
     </table>
-
 
 <script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
 <script>
@@ -110,11 +108,13 @@
     editor.setTheme("ace/theme/monokai");
     editor.session.setMode("ace/mode/javascript");
     editor.setOption("wrap", "free");
+    editor.set
 
     var editor2 = ace.edit("editor2");
     editor2.setTheme("ace/theme/monokai");
-    editor2.session.setMode("ace/mode/javascript");
+    editor2.session.setMode("ace/mode/scheme");
     editor2.setOption("wrap", "free");
+    editor2.setReadOnly(true);   <!-- editor2为显示结果，改为只读 -->
 
     function setValue(node, data) {
         node.setValue(data);

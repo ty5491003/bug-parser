@@ -1,15 +1,19 @@
 package com.ty.bugparser.dao;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class DaoUtils {
     private static final String CLASS_NAME = "org.sqlite.JDBC";
     private static String DB_URL = null;
 
     public DaoUtils(String dbPath) {
         DB_URL = "jdbc:sqlite:" + dbPath;
+        log.warn("建立DaoUtils之后，DB_URL为" + DB_URL);
     }
 
     public List<String> search() {
@@ -23,6 +27,7 @@ public class DaoUtils {
             String sql = "SELECT output_id FROM SuspiciousResults";
 
             // 执行查询语句
+            log.warn("将执行的sql语句是:" + sql);
             rs = statement.executeQuery(sql);
             ids = new ArrayList<>();
             while (rs.next()) {
@@ -30,7 +35,8 @@ public class DaoUtils {
                 ids.add(object.toString());
             }
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            log.warn("遇到了SQLException：");
+            log.warn(e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -41,6 +47,7 @@ public class DaoUtils {
             } catch (SQLException e) {
                 // connection close failed.
                 System.err.println(e);
+                log.warn("数据库连接关闭时出现异常");
             }
         }
         return ids;
