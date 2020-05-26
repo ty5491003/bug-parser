@@ -2,6 +2,8 @@ server:
   max-http-header-size: 4048576
   tomcat:
     max-http-form-post-size: 1000MB
+
+
 spring:
   servlet:
     multipart:
@@ -9,8 +11,23 @@ spring:
       max-file-size: 1000MB  #单个文件的最大上限
       max-request-size: 1000MB #单个请求的文件总大小上限
 
-logging:
-  file:
-    name: /export/nisl/ty/temp/logger/spring-boot-logger.log
-  level:
-    root: warn
+  # 配置数据源
+  datasource:
+    username:
+    password:
+    url: jdbc:sqlite:C:\临时\5-25\result_5_20_test.db
+    driver-class-name: org.sqlite.JDBC
+
+
+#logging:
+#  file:
+#    name: /export/nisl/ty/temp/logger/spring-boot-logger.log
+#  level:
+#    root: warn
+
+
+# mybatis配置
+mybatis:
+  type-aliases-package: com.ty.bugparser.pojo
+  mapper-locations: classpath:com/ty/bugparser/mapper/*.xml
+#  config-location: 这是mybatis的配置文件，依然可以保留
