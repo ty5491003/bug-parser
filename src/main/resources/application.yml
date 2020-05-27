@@ -18,12 +18,19 @@ spring:
     url: jdbc:sqlite:C:\临时\5-25\result_5_20_test.db
     driver-class-name: org.sqlite.JDBC
 
+  thymeleaf:
+    mode: HTML
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    prefix: classpath:/templates/
 
-#logging:
-#  file:
-#    name: /export/nisl/ty/temp/logger/spring-boot-logger.log
-#  level:
-#    root: warn
+
+logging:
+  file:
+    name: C:\临时\5-25\logging.txt
+  level:
+    root: warn
 
 
 # mybatis配置

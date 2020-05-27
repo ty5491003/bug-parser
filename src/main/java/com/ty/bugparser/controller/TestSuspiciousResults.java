@@ -22,7 +22,7 @@ public class TestSuspiciousResults {
 
     @RequestMapping("/update1")
     public int update() {
-        SuspiciousResults result = new SuspiciousResults(1, "Exception", "Rhino", 666, 3, "previous", "no");
+        SuspiciousResults result = new SuspiciousResults(2, "Exception", "Rhino", 666, 3, "previous", "no", "tianyang");
         return suspiciousResultsService.updateSuspiciousResults(result);
 
     }

@@ -15,7 +15,8 @@
             output_id=#{output_id},
             bugLabel=#{bugLabel},
             reason=#{reason},
-            remarks=#{remarks}
+            remarks=#{remarks},
+            assignee=#{assignee}
         WHERE id=#{id}
     </update>
 

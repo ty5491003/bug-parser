@@ -15,4 +15,5 @@ public class SuspiciousResults {
     private int bugLabel;
     private String reason;
     private String remarks;
+    private String assignee;
 }
