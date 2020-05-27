@@ -44,12 +44,12 @@
 
 	<body>
 
-		<div th:replace="~{/commons/commons::topbar(page='Suspicious/list.html')}"></div>
+		<div th:replace="~{/commons/commons::topbar(page='BugAnalyse.html')}"></div>
 
 		<div class="container-fluid">
 			<div class="row">
 
-				<div th:replace="~{/commons/commons::sidebar(page='Suspicious/list.html')}"></div>
+				<div th:replace="~{/commons/commons::sidebar(page='BugAnalyse.html')}"></div>
 
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 					<div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
@@ -61,16 +61,14 @@
 						</div>
 					</div>
 					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-						<h1 id="PageTitle" class="h2">所有可疑用例信息</h1>
+						<h1 id="PageTitle" class="h2">用例分析</h1>
 						<div class="btn-toolbar mb-2 mb-md-0">
-							<div class="btn-group mr-2">
-								<button class="btn btn-sm btn-outline-secondary" onclick="renderTable('/SuspiciousResults/queryAll', '所有可疑用例信息')">查看所有</button>
-								<button class="btn btn-sm btn-outline-secondary" onclick="renderTable('/SuspiciousResults/queryAllAnalysed', '分析过的可疑用例')">仅显示分析过的</button>
-								<button class="btn btn-sm btn-outline-secondary" onclick="renderTable('/SuspiciousResults/queryAllNoAnalysed', '未分析的可疑用例')">仅显示未分析的</button>
+							<div>
+								<span>当前共有[[${allNumber}]]条可疑用例，其中[[${analysedNumber}]]条已分析，剩余[[${noAnalysedNumber}]]条需要分析。</span>
 							</div>
-
 						</div>
 					</div>
+
 
 					<div>
 						<table lay-filter="test" id="SuspiciousResultsTable"></table>
@@ -85,48 +83,6 @@
 		<script type="text/javascript" src="../static/js/jquery-3.2.1.slim.min.js"></script>
 		<script type="text/javascript" src="../static/js/popper.min.js"></script>
 		<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
-
-		<!-- Icons -->
-		<script type="text/javascript" src="../static/js/feather.min.js"></script>
-		<script>
-			feather.replace()
-		</script>
-
-		<!-- Graphs -->
-		<script type="text/javascript" src="../static/js/Chart.min.js"></script>
-
-		<!-- layui table -->
-		<script th:src="@{/layui/layui.js}" charset="utf-8"></script>
-		<script>
-			renderTable("/SuspiciousResults/queryAll", "所有可疑用例信息");
-
-			function renderTable(url, pageTitleContent) {
-				document.getElementById("PageTitle").innerText = pageTitleContent;
-				layui.use('table', function(){
-				  var table = layui.table;
-				  table.render({
-					elem: '#SuspiciousResultsTable'
-					,height: 600
-					,url: url
-					,cellMinWidth: 80
-					,page: true //开启分页
-
-					,cols: [ [ //表头
-						   {field: 'id', title: 'ID', sort: true, fixed: 'left', width: 70}
-						   ,{field: 'output_id', title: '用例ID', width: 80}
-						   ,{field: 'bugType', title: 'BUG表现', sort: true, width:200}
-						   ,{field: 'engine', title: '出错引擎', sort: true, width: 120}
-						   ,{field: 'reason', title: '原因分析'}
-						   ,{field: 'bugLabel', title: '标签', sort: true, width: 80}
-						   ,{field: 'assignee', title: '分析人', sort: true}
-						   ,{field: 'remarks', title: '备注'}
-						   ] ]
-				  });
-				});
-			}
-		</script>
-
-
 
 	</body>
 
