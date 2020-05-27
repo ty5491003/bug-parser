@@ -40,9 +40,60 @@
 				animation: chartjs-render-animation 0.001s;
 			}
 		</style>
+
+		<!-- 文本编辑器格式 -->
+		<style type="text/css" media="screen">
+    #editor {
+        /*position: absolute;*/
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 450px;
+        width: 600px;
+    }
+    #editor2 {
+        /*position: absolute;*/
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 450px;
+        width: 600px;
+    }
+
+</style>
+
+		<!--JQuery依赖和三个Ajax请求-->
+		<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+		<script>
+		  function getATestcase() {
+			$.post({
+				url: "getATestcase",
+				data: {},
+				success: function(data) {
+					setValue(editor, data);
+				},
+				error: function(){ alert("Ajax出错啦！")}
+			});
+		  }
+		    function run(code) {
+				$.post({
+					url: "run",
+					data: {code : code},
+					success: function(data) {
+						// data为回传的值，将其赋给ids的文本框中
+						setValue(editor2, data);
+					},
+					error: function(){ alert("Ajax出错啦！")}
+				});
+			  }
+		</script>
+
 	</head>
 
 	<body>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ace.js"></script>
 
 		<div th:replace="~{/commons/commons::topbar(page='BugAnalyse.html')}"></div>
 
@@ -61,7 +112,13 @@
 						</div>
 					</div>
 					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-						<h1 id="PageTitle" class="h2">用例分析</h1>
+						<h1 id="PageTitle" class="h2">分析用例</h1>
+						<div class="btn-group mr-2">
+							<button class="btn btn-sm btn-outline-secondary" onclick="getATestcase()">获取用例</button>
+							<button class="btn btn-sm btn-outline-secondary" onclick="run(editor.getValue())">运行</button>
+							<button class="btn btn-sm btn-outline-secondary" onclick="">提交</button>
+<!--							<button class="btn btn-sm btn-outline-secondary" onclick="">切换显示模式</button>-->
+						</div>
 						<div class="btn-toolbar mb-2 mb-md-0">
 							<div>
 								<span>当前共有[[${allNumber}]]条可疑用例，其中[[${analysedNumber}]]条已分析，剩余[[${noAnalysedNumber}]]条需要分析。</span>
@@ -69,10 +126,15 @@
 						</div>
 					</div>
 
+					<table>
+						<tr>
+							<th><div id="editor"></div></th>
+							<th><div id="editor2"></div></th>
+						</tr>
+					</table>
 
-					<div>
-						<table lay-filter="test" id="SuspiciousResultsTable"></table>
-					</div>
+
+
 				</main>
 			</div>
 		</div>
@@ -83,7 +145,24 @@
 		<script type="text/javascript" src="../static/js/jquery-3.2.1.slim.min.js"></script>
 		<script type="text/javascript" src="../static/js/popper.min.js"></script>
 		<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+		<script src="/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+		<script>
 
+			var editor = ace.edit("editor");
+			editor.setTheme("ace/theme/monokai");
+			editor.session.setMode("ace/mode/javascript");
+			editor.setOption("wrap", "free");
+
+			var editor2 = ace.edit("editor2");
+			editor2.setTheme("ace/theme/monokai");
+			editor2.session.setMode("ace/mode/scheme");
+			editor2.setOption("wrap", "free");
+			editor2.setReadOnly(true);   <!-- editor2为显示结果，改为只读 -->
+
+			function setValue(node, data) {
+				node.setValue(data);
+			}
+		</script>
 	</body>
 
 </html>

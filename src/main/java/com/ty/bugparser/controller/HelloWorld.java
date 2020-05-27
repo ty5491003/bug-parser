@@ -38,11 +38,6 @@ public class HelloWorld {
         String bashFileName = "/export/nisl/yhy/javascriptFuzzingOther/test/ty.sh";
         log.warn("新建的测试用例名称为:" + testcaseFileName);
 
-        // 以下为测试环境
-//        ExecutorImpl executor = new ExecutorImpl();
-//        String cmd = "C:/临时/5-25/ty.bat";
-//        String testcaseFileName = "123";
-
         String result = "";
         try {
             result = executor.executeScript(prefix, bashFileName, testcaseFileName, null);

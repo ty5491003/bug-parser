@@ -16,6 +16,13 @@
         SELECT * FROM SuspiciousResults WHERE assignee IS NULL
     </select>
 
+<!--    <select id="queryATestcase" resultType="map">-->
+    <select id="queryATestcase" resultType="string">
+        SELECT Testcases.testcase FROM Testcases
+        WHERE id = (SELECT HarnessResults.testcase FROM HarnessResults
+        WHERE HarnessResults.id = (SELECT output_id FROM SuspiciousResults WHERE assignee IS NULL ORDER BY RANDOM() LIMIT 1))
+    </select>
+
     <update id="updateSuspiciousResults" parameterType="SuspiciousResults">
         UPDATE SuspiciousResults
         SET bugType=#{bugType},

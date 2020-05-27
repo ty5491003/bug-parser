@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SuspiciousResultsServiceImpl implements SuspiciousResultsService{
@@ -26,6 +27,15 @@ public class SuspiciousResultsServiceImpl implements SuspiciousResultsService{
     @Override
     public List<SuspiciousResults> queryAllNoAnalysed() {
         return suspiciousResultsMapper.queryAllNoAnalysed();
+    }
+
+//    @Override
+//    public Map<String, Object> queryATestcase() {
+//        return suspiciousResultsMapper.queryATestcase();
+//    }
+    @Override
+    public String queryATestcase() {
+        return suspiciousResultsMapper.queryATestcase();
     }
 
     @Override
