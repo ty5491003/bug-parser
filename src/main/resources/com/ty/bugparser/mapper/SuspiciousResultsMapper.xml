@@ -8,6 +8,14 @@
         SELECT * FROM SuspiciousResults
     </select>
 
+    <select id="queryAllAnalysed" resultType="SuspiciousResults">
+        SELECT * FROM SuspiciousResults WHERE assignee IS NOT NULL
+    </select>
+
+    <select id="queryAllNoAnalysed" resultType="SuspiciousResults">
+        SELECT * FROM SuspiciousResults WHERE assignee IS NULL
+    </select>
+
     <update id="updateSuspiciousResults" parameterType="SuspiciousResults">
         UPDATE SuspiciousResults
         SET bugType=#{bugType},

@@ -19,16 +19,39 @@ public class SuspiciousResultsController {
     @Autowired
     private SuspiciousResultsService suspiciousResultsService;
 
-    /**
-     * 数据请求接口，将返回请求的数据，与 list.html 对接
-     *
-     * @return
-     */
-    @RequestMapping("/SuspiciousResults/manage")
+    @RequestMapping("/SuspiciousResults/queryAll")
     @ResponseBody
     public String queryAll() {
 
         List<SuspiciousResults> suspiciousResults = suspiciousResultsService.queryAllSuspiciousResults();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("count", suspiciousResults.size());
+        map.put("data", suspiciousResults);
+
+        return JSON.toJSONString(map);
+    }
+
+    @RequestMapping("/SuspiciousResults/queryAllAnalysed")
+    @ResponseBody
+    public String queryAllAnalysed() {
+        List<SuspiciousResults> suspiciousResults = suspiciousResultsService.queryAllAnalysed();
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("count", suspiciousResults.size());
+        map.put("data", suspiciousResults);
+
+        return JSON.toJSONString(map);
+    }
+
+    @RequestMapping("/SuspiciousResults/queryAllNoAnalysed")
+    @ResponseBody
+    public String queryAllNoAnalysed() {
+        List<SuspiciousResults> suspiciousResults = suspiciousResultsService.queryAllNoAnalysed();
 
         Map<String, Object> map = new HashMap<>();
         map.put("code", 0);

@@ -19,6 +19,16 @@ public class SuspiciousResultsServiceImpl implements SuspiciousResultsService{
     }
 
     @Override
+    public List<SuspiciousResults> queryAllAnalysed() {
+        return suspiciousResultsMapper.queryAllAnalysed();
+    }
+
+    @Override
+    public List<SuspiciousResults> queryAllNoAnalysed() {
+        return suspiciousResultsMapper.queryAllNoAnalysed();
+    }
+
+    @Override
     public int updateSuspiciousResults(SuspiciousResults suspiciousResults) {
         return suspiciousResultsMapper.updateSuspiciousResults(suspiciousResults);
     }

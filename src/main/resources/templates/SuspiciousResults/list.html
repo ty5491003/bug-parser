@@ -97,29 +97,30 @@
 		<!-- layui table -->
 		<script th:src="@{/layui/layui.js}" charset="utf-8"></script>
 		<script>
-layui.use('table', function(){
-  var table = layui.table;
+			layui.use('table', function(){
+			  var table = layui.table;
 
-  table.render({
-    elem: '#SuspiciousResultsTable'
-    ,height: 600
-    ,url: '/SuspiciousResults/manage'
-    ,cellMinWidth: 80
-    ,page: true //开启分页
+			  table.render({
+				elem: '#SuspiciousResultsTable'
+				,height: 600
+				,url: '/SuspiciousResults/queryAll'
+				,cellMinWidth: 80
+				,page: true //开启分页
 
-    ,cols: [ [ //表头
-           {field: 'id', title: 'ID', sort: true, fixed: 'left', width: 70}
-           ,{field: 'output_id', title: '用例ID', width: 80}
-           ,{field: 'bugType', title: 'BUG表现', sort: true}
-           ,{field: 'engine', title: '出错引擎', sort: true, width: 120}
-           ,{field: 'reason', title: '原因分析'}
-           ,{field: 'bugLabel', title: '标签', sort: true, width: 80}
-           ,{field: 'assignee', title: '分析人', sort: true}
-           ,{field: 'remarks', title: '备注'}
-           ] ]
-  });
-});
-</script>
+				,cols: [ [ //表头
+					   {field: 'id', title: 'ID', sort: true, fixed: 'left', width: 70}
+					   ,{field: 'output_id', title: '用例ID', width: 80}
+					   ,{field: 'bugType', title: 'BUG表现', sort: true}
+					   ,{field: 'engine', title: '出错引擎', sort: true, width: 120}
+					   ,{field: 'reason', title: '原因分析'}
+					   ,{field: 'bugLabel', title: '标签', sort: true, width: 80}
+					   ,{field: 'assignee', title: '分析人', sort: true}
+					   ,{field: 'remarks', title: '备注'}
+					   ] ]
+			  });
+			});
+		</script>
+
 
 
 	</body>

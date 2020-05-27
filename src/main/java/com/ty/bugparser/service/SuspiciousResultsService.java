@@ -10,6 +10,10 @@ public interface SuspiciousResultsService {
 
     List<SuspiciousResults> queryAllSuspiciousResults();
 
+    List<SuspiciousResults> queryAllAnalysed();
+
+    List<SuspiciousResults> queryAllNoAnalysed();
+
     int updateSuspiciousResults(SuspiciousResults suspiciousResults);
 
 }
