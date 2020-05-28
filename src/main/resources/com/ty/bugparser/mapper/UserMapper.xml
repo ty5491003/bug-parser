@@ -8,4 +8,14 @@
         SELECT * FROM Users WHERE username=#{username} AND password=#{password}
     </select>
 
+    <select id="getUserByUsername" resultType="User">
+        SELECT * FROM Users WHERE username=#{username}
+    </select>
+
+    <update id="updateUser" parameterType="User">
+        UPDATE Users
+        SET password = #{password}
+        WHERE username=#{username}
+    </update>
+
 </mapper>

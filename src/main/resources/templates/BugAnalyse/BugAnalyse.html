@@ -90,10 +90,12 @@
 				data: {suspiciousId: parsed_object["suspiciousId"], testcaseId: parsed_object["testcaseId"],
 					simplifiedCase: editor.getValue(), assignee: $('#username').text().split(' ')[1]},
 				success: function(data) {
-					    console.log(data);
-					    console.log(data);
-					    console.log(data);
-						alert("用例提交成功!")
+					if (data === '1') {
+						alert("用例提交成功!");
+						setTimeout(function(){location.reload()}, 1000);
+					} else {
+						alert("用例提交失败，请重试!");
+					}
 				},
 				error: function(){ alert("用例提交失败，请重试!")}
 			});
@@ -106,6 +108,7 @@
 				    content:
 `
 <form class="layui-form">
+<!--<form>-->
 
   <div class="layui-form-item">
     <label class="layui-form-label">操作人：</label>
@@ -145,7 +148,7 @@
   <div class="layui-form-item">
     <div class="layui-input-block">
       <button class="layui-btn" onclick="submitTestcase()">立即提交</button>
-      <button class="layui-btn layui-btn-primary">取消</button>
+<!--      <button class="layui-btn layui-btn-primary">取消</button>-->
     </div>
   </div>
 </form>
