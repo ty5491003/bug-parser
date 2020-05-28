@@ -29,14 +29,26 @@ public class SuspiciousResultsServiceImpl implements SuspiciousResultsService{
         return suspiciousResultsMapper.queryAllNoAnalysed();
     }
 
-//    @Override
+    @Override
+    public int queryARandomNoAnalysedId() {
+        return suspiciousResultsMapper.queryARandomNoAnalysedId();
+    }
+
+    @Override
+    public int queryAOutputIdBySuspiciousId(int SuspiciousId) {
+        return suspiciousResultsMapper.queryAOutputIdBySuspiciousId(SuspiciousId);
+    }
+
+    @Override
+    public String queryATestcaseByOutputId(int id) {
+        return suspiciousResultsMapper.queryATestcaseByOutputId(id);
+    }
+
+    //    @Override
 //    public Map<String, Object> queryATestcase() {
 //        return suspiciousResultsMapper.queryATestcase();
 //    }
-    @Override
-    public String queryATestcase() {
-        return suspiciousResultsMapper.queryATestcase();
-    }
+
 
     @Override
     public int updateSuspiciousResults(SuspiciousResults suspiciousResults) {

@@ -72,7 +72,16 @@
 				url: "getATestcase",
 				data: {},
 				success: function(data) {
-					setValue(editor, data);
+					// 获取传回的值
+					let parse = JSON.parse(data);
+					let suspiciousId = parse["suspiciousId"];
+					let outputId = parse["outputId"];
+					let testcase = parse["testcase"];
+					// 值填充
+					$("#SuspiciousId").text("SuspiciousId:" + suspiciousId);
+					$("#HarnessId").text("HarnessId:" + outputId);
+					setValue(editor, testcase);
+
 				},
 				error: function(){ alert("Ajax出错啦！")}
 			});
@@ -117,7 +126,11 @@
 							<button class="btn btn-sm btn-outline-secondary" onclick="getATestcase()">获取用例</button>
 							<button class="btn btn-sm btn-outline-secondary" onclick="run(editor.getValue())">运行</button>
 							<button class="btn btn-sm btn-outline-secondary" onclick="">提交</button>
-<!--							<button class="btn btn-sm btn-outline-secondary" onclick="">切换显示模式</button>-->
+							<button class="btn btn-sm btn-outline-secondary" onclick="">恢复用例</button>
+						</div>
+						<div>
+							<span id="SuspiciousId"></span>
+							<span id="HarnessId"></span>
 						</div>
 						<div class="btn-toolbar mb-2 mb-md-0">
 							<div>

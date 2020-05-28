@@ -1,5 +1,6 @@
 package com.ty.bugparser.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.ty.bugparser.pojo.SuspiciousResults;
 import com.ty.bugparser.service.ExecutorImpl;
 import com.ty.bugparser.service.SuspiciousResultsService;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -49,7 +52,14 @@ public class BugAnalyseController {
     @RequestMapping("/getATestcase")
     @ResponseBody
     public String getATestcase() {
-        return suspiciousResultsService.queryATestcase();
+        int suspiciousId = suspiciousResultsService.queryARandomNoAnalysedId();
+        int outputId = suspiciousResultsService.queryAOutputIdBySuspiciousId(suspiciousId);
+        String testcase = suspiciousResultsService.queryATestcaseByOutputId(outputId);
+        Map<String, String> map = new HashMap<>(2);
+        map.put("suspiciousId", String.valueOf(suspiciousId));
+        map.put("outputId", String.valueOf(outputId));
+        map.put("testcase", testcase);
+        return JSON.toJSONString(map);
     }
 
     @RequestMapping("/run")

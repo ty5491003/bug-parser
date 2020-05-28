@@ -17,8 +17,12 @@ public interface SuspiciousResultsMapper {
 
     List<SuspiciousResults> queryAllNoAnalysed();
 
+    int queryARandomNoAnalysedId();
+
+    int queryAOutputIdBySuspiciousId(int SuspiciousId);
+
 //    Map<String, Object> queryATestcase();
-    String queryATestcase();
+    String queryATestcaseByOutputId(int id);
 
     int updateSuspiciousResults(SuspiciousResults suspiciousResults);
 
