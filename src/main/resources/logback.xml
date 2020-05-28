@@ -9,7 +9,7 @@ debug:当此属性设置为true时，将打印出logback内部日志信息，实
     例如使用<property>定义上下文名称，然后在<contentName>设置logger上下文时使用。
     -->
     <property name="contextName" value="context-name" />
-    <property name="log_home" value="/tmp" />
+    <property name="log_home" value="/export/nisl/ty/temp/logger" />
 
     <!--
     contextName：每个logger都关联到logger上下文，默认上下文名称为“default”。
