@@ -58,6 +58,7 @@
 				error: function(){ alert("Ajax出错啦！")}
 			});
 		  }
+		  	// 用例执行的异步请求
 		    function run(code) {
 				$.post({
 					url: "run",
@@ -70,6 +71,18 @@
 				});
 			  }
 
+		    // 用例还原的异步请求
+		    function recoverTestcase() {
+				$.post({
+					url: "recoverTestcase",
+					data: {testcaseId : parsed_object['testcaseId']},
+					success: function(data) {
+						// data为还原之后的测试用例
+						setValue(editor, data);
+					},
+					error: function(){ alert("Ajax出错啦！")}
+				});
+			  }
 			function submitTestcase() {
 				// 提交保存用例的异步请求
 				$.post({
@@ -188,7 +201,7 @@
 							<button class="btn btn-sm btn-outline-secondary" onclick="getATestcase()">获取用例</button>
 							<button class="btn btn-sm btn-outline-secondary" onclick="run(editor.getValue())">运行</button>
 							<button class="btn btn-sm btn-outline-secondary" onclick="openSubmitWindow()">提交</button>
-							<button class="btn btn-sm btn-outline-secondary" onclick="">恢复用例</button>
+							<button class="btn btn-sm btn-outline-secondary" onclick="recoverTestcase()">恢复用例</button>
 						</div>
 						<div>
 							<ul>

@@ -134,6 +134,12 @@ public class BugAnalyseController {
         return flag;
     }
 
+    @RequestMapping("recoverTestcase")
+    @ResponseBody
+    public String recoverTestcase(String testcaseId) {
+        return suspiciousResultsService.queryTestcaseCodeByTestcaseId(Integer.parseInt(testcaseId));
+    }
+
 //    @RequestMapping("/TestSubmit")
 //    @ResponseBody
 //    public String testSubmit() {
