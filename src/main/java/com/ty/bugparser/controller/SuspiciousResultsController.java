@@ -16,15 +16,15 @@ import java.util.Map;
 
 @Controller
 @Slf4j
+@RequestMapping("/SuspiciousResults")
 public class SuspiciousResultsController {
 
     @Autowired
     private SuspiciousResultsService suspiciousResultsService;
 
-    @RequestMapping("/SuspiciousResults/queryAll")
+    @RequestMapping("/queryAll")
     @ResponseBody
     public String queryAll() {
-        log.error("run queryAll.");
         List<SuspiciousResults> suspiciousResults = suspiciousResultsService.queryAllSuspiciousResults();
 
         Map<String, Object> map = new HashMap<>();
@@ -36,7 +36,7 @@ public class SuspiciousResultsController {
         return JSON.toJSONString(map);
     }
 
-    @RequestMapping("/SuspiciousResults/queryAllAnalysed")
+    @RequestMapping("/queryAllAnalysed")
     @ResponseBody
     public String queryAllAnalysed() {
         List<SuspiciousResults> suspiciousResults = suspiciousResultsService.queryAllAnalysed();
@@ -50,7 +50,7 @@ public class SuspiciousResultsController {
         return JSON.toJSONString(map);
     }
 
-    @RequestMapping("/SuspiciousResults/queryAllNoAnalysed")
+    @RequestMapping("/queryAllNoAnalysed")
     @ResponseBody
     public String queryAllNoAnalysed() {
         List<SuspiciousResults> suspiciousResults = suspiciousResultsService.queryAllNoAnalysed();

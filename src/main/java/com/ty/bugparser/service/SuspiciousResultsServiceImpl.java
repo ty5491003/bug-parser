@@ -55,7 +55,6 @@ public class SuspiciousResultsServiceImpl implements SuspiciousResultsService{
         return suspiciousResultsMapper.queryTestcaseCodeByTestcaseId(testcaseId);
     }
 
-
     @Override
     public int updateSuspiciousResults(SuspiciousResults suspiciousResults) {
         return suspiciousResultsMapper.updateSuspiciousResults(suspiciousResults);

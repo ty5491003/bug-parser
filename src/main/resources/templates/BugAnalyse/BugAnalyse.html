@@ -14,34 +14,34 @@
 		<!-- Custom styles for this template -->
 		<link th:href="@{/css/dashboard.css}" rel="stylesheet">
 
-		<!-- 文本编辑器格式 -->
+		<!-- 代码编辑器格式 -->
 		<style type="text/css" media="screen">
-    #editor {
-        /*position: absolute;*/
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        height: 440px;
-        width: 600px;
-    }
-    #editor2 {
-        /*position: absolute;*/
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        height: 440px;
-        width: 600px;
-    }
-
-</style>
+			#editor {
+				/*position: absolute;*/
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				height: 440px;
+				width: 600px;
+			}
+			#editor2 {
+				/*position: absolute;*/
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				height: 440px;
+				width: 600px;
+			}
+		</style>
 
 		<!--JQuery依赖和三个Ajax请求-->
 		<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
-
 		<script>
 			var parsed_object;
+
+			// 获取一个随机的用例并填充其对应的3个ID值
 		  	function getATestcase() {
 			$.post({
 				url: "getATestcase",
@@ -58,18 +58,19 @@
 				error: function(){ alert("Ajax出错啦！")}
 			});
 		  }
+
 		  	// 用例执行的异步请求
 		    function run(code) {
 				$.post({
 					url: "run",
 					data: {code : code},
-					success: function(data) {
-						// data为回传的值，将其赋给ids的文本框中
-						setValue(editor2, data);
+					success: function(result) {
+						// result为该用例执行的结果，将其赋给右边的代码编辑器
+						setValue(editor2, result);
 					},
 					error: function(){ alert("Ajax出错啦！")}
 				});
-			  }
+			}
 
 		    // 用例还原的异步请求
 		    function recoverTestcase() {
@@ -82,100 +83,100 @@
 					},
 					error: function(){ alert("Ajax出错啦！")}
 				});
-			  }
-			function submitTestcase() {
-				// 提交保存用例的异步请求
-				$.post({
-				url: "submitTestcase",
-				data: {suspiciousId: parsed_object["suspiciousId"], testcaseId: parsed_object["testcaseId"],
-					simplifiedCase: editor.getValue(), assignee: $('#username').text().split(' ')[1]},
-				success: function(data) {
-					if (data === '1') {
-						alert("用例提交成功!");
-						setTimeout(function(){location.reload()}, 1000);
-					} else {
-						alert("用例提交失败，请重试!");
-					}
-				},
-				error: function(){ alert("用例提交失败，请重试!")}
-			});
 			}
+
+			// 提交保存用例的异步请求
+			function submitTestcase() {
+				$.post({
+					url: "submitTestcase",
+					data: {suspiciousId: parsed_object["suspiciousId"], testcaseId: parsed_object["testcaseId"],
+						simplifiedCase: editor.getValue(), assignee: $('#username').text().split(' ')[1]},
+					success: function(data) {
+						if (data === '1') {
+							alert("用例提交成功!");
+							setTimeout(function(){location.reload()}, 1000);
+						} else {
+							alert("用例提交失败，请重试!");
+						}
+					},
+					error: function(){ alert("用例提交失败，请重试!")}
+				});
+			}
+
+			// 打开提交的弹窗
 		    function openSubmitWindow() {
 				layer.open({
 				    type: 1,
 				    skin: 'layui-layer-rim', //加上边框
 				    area: ['400px', '500px'], //宽高
 				    content:
-`
-<form class="layui-form">
-<!--<form>-->
+						`
+						<form class="layui-form">
 
-  <div class="layui-form-item">
-    <label class="layui-form-label">操作人：</label>
-    <div class="layui-input-block">
-      <input id="assignee" type="text" class="layui-input" style="width: 200px; background-color: #c6c8ca" readonly="readonly">
-    </div>
-  </div>
+						  <div class="layui-form-item">
+							<label class="layui-form-label">操作人：</label>
+							<div class="layui-input-block">
+							  <input id="assignee" type="text" class="layui-input" style="width: 200px; background-color: #c6c8ca" readonly="readonly">
+							</div>
+						  </div>
 
-<!--  <div class="layui-form-item">-->
-<!--    <label class="layui-form-label">SusId：</label>-->
-<!--    <div class="layui-input-block">-->
-<!--      <input id="susId" type="text" class="layui-input" style="width: 200px; background-color: #c6c8ca" readonly="readonly">-->
-<!--    </div>-->
-<!--  </div>-->
+						<!--  <div class="layui-form-item">-->
+						<!--    <label class="layui-form-label">SusId：</label>-->
+						<!--    <div class="layui-input-block">-->
+						<!--      <input id="susId" type="text" class="layui-input" style="width: 200px; background-color: #c6c8ca" readonly="readonly">-->
+						<!--    </div>-->
+						<!--  </div>-->
 
-<!--  <div class="layui-form-item">-->
-<!--    <label class="layui-form-label">CaseId：</label>-->
-<!--    <div class="layui-input-block">-->
-<!--      <input id="caseId" type="text" class="layui-input" style="width: 200px; background-color: #c6c8ca" readonly="readonly">-->
-<!--    </div>-->
-<!--  </div>-->
+						<!--  <div class="layui-form-item">-->
+						<!--    <label class="layui-form-label">CaseId：</label>-->
+						<!--    <div class="layui-input-block">-->
+						<!--      <input id="caseId" type="text" class="layui-input" style="width: 200px; background-color: #c6c8ca" readonly="readonly">-->
+						<!--    </div>-->
+						<!--  </div>-->
 
-  <div class="layui-form-item">
-    <label class="layui-form-label">是否提交精简后用例：</label>
-    <div class="layui-input-block">
-      <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
-    </div>
-  </div>
-<!--  <div class="layui-form-item">-->
-<!--    <label class="layui-form-label">开关-默认开</label>-->
-<!--    <div class="layui-input-block">-->
-<!--      <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">-->
-<!--    </div>-->
-<!--  </div>-->
+						  <div class="layui-form-item">
+							<label class="layui-form-label">是否提交精简后用例：</label>
+							<div class="layui-input-block">
+							  <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+							</div>
+						  </div>
+						<!--  <div class="layui-form-item">-->
+						<!--    <label class="layui-form-label">开关-默认开</label>-->
+						<!--    <div class="layui-input-block">-->
+						<!--      <input type="checkbox" checked="" name="open" lay-skin="switch" lay-filter="switchTest" lay-text="ON|OFF">-->
+						<!--    </div>-->
+						<!--  </div>-->
 
 
-  <div class="layui-form-item">
-    <div class="layui-input-block">
-      <button class="layui-btn" onclick="submitTestcase()">立即提交</button>
-<!--      <button class="layui-btn layui-btn-primary">取消</button>-->
-    </div>
-  </div>
-</form>
-`
+						  <div class="layui-form-item">
+							<div class="layui-input-block">
+							  <button class="layui-btn" onclick="submitTestcase()">立即提交</button>
+						<!--      <button class="layui-btn layui-btn-primary">取消</button>-->
+							</div>
+						  </div>
+						</form>
+						`
 				});
 
-			layui.use('form', function(){
-			  var form = layui.form;
-			  var username = $('#username').text().split(' ')[1];
-			  form.render();
-			  $('#assignee').attr('value', username);
+				layui.use('form', function(){
+				  var form = layui.form;
+				  var username = $('#username').text().split(' ')[1];
+				  form.render();
+				  $('#assignee').attr('value', username);
 
-			  // $('#susId').attr('value', parsed_object["suspiciousId"]);
-			  // $('#caseId').attr('value', parsed_object["testcaseId"]);
+				  // $('#susId').attr('value', parsed_object["suspiciousId"]);
+				  // $('#caseId').attr('value', parsed_object["testcaseId"]);
 
-			  //监听提交
-			  // form.on('submit(formDemo)', function(data){
-				// layer.msg(JSON.stringify(data.field));
-				// return false;
-			  // });
-			});
-
+				  //监听提交
+				  // form.on('submit(formDemo)', function(data){
+					// layer.msg(JSON.stringify(data.field));
+					// return false;
+				  // });
+				});
 			}
 
 
 		</script>
-
 	</head>
 
 	<body>
@@ -190,14 +191,7 @@
 				<div th:replace="~{/commons/commons::sidebar(page='BugAnalyse.html')}"></div>
 
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-					<div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;">
-						<div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-							<div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div>
-						</div>
-						<div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;">
-							<div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
-						</div>
-					</div>
+
 					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
 						<h1 id="PageTitle" class="h2">分析用例</h1>
 						<div class="btn-group mr-2">
@@ -221,6 +215,7 @@
 						</div>
 					</div>
 
+					<!--两个代码输入框组件-->
 					<table>
 						<tr>
 							<th><div id="editor"></div></th>
@@ -232,6 +227,8 @@
 			</div>
 		</div>
 		<script src="/layer-v3.1.1/layer/layer.js"></script>
+
+		<!--代码输入框的渲染及取值脚本-->
 		<script>
 			var editor = ace.edit("editor");
 			editor.setTheme("ace/theme/monokai");
@@ -248,7 +245,5 @@
 				node.setValue(data);
 			}
 		</script>
-
 	</body>
-
 </html>

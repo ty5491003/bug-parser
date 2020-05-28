@@ -1,3 +1,13 @@
+################用户自定义配置################
+executor:
+  # 这三项合起来是一个执行测试脚本对测试用例进行执行的命令：
+  # `bash /export/nisl/yhy/javascriptFuzzingOther/test/ty.sh /export/nisl/ty/temp/randomName.js`
+  prefix: bash
+  bashFilePath: /export/nisl/yhy/javascriptFuzzingOther/test/ty.sh
+  tempFileDir: /export/nisl/ty/temp/
+
+
+##################系统配置###################
 server:
   max-http-header-size: 4048576
   tomcat:
@@ -15,17 +25,17 @@ spring:
 
   # 配置数据源
   datasource:
+    driver-class-name: org.sqlite.JDBC
     username:
     password:
     # 服务器测试数据库
 #    url: jdbc:sqlite:/export/nisl/ty/temp/result.db
 
 #    # 服务器正式数据库
-    url: jdbc:sqlite:/export/nisl/yhy/mutationData/qx_1st/workspace/result/result.db
+#    url: jdbc:sqlite:/export/nisl/yhy/mutationData/qx_1st/workspace/result/result.db
 
     # 本地测试数据库
-#    url: jdbc:sqlite:C:\临时\5-25\result_5_20_test.db
-    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:C:\临时\5-25\result_5_20_test.db
 
   thymeleaf:
     mode: HTML
@@ -37,12 +47,11 @@ spring:
 #
 logging:
   file:
-#    name: C:\临时\5-25\logging.txt
+    name: C:\临时\5-25\logging.txt
 #    name: /export/nisl/ty/temp/logger/test.log
-    name: /export/nisl/ty/temp/logger/production.log
+#    name: /export/nisl/ty/temp/logger/production.log
   level:
     root: warn
-
 
 # mybatis配置
 mybatis:
