@@ -52,12 +52,14 @@ public class BugAnalyseController {
     @RequestMapping("/getATestcase")
     @ResponseBody
     public String getATestcase() {
-        int suspiciousId = suspiciousResultsService.queryARandomNoAnalysedId();
-        int outputId = suspiciousResultsService.queryAOutputIdBySuspiciousId(suspiciousId);
-        String testcase = suspiciousResultsService.queryATestcaseByOutputId(outputId);
-        Map<String, String> map = new HashMap<>(2);
+        int suspiciousId = suspiciousResultsService.queryRandomNoAnalysedSuspiciousId();
+        int harnessId = suspiciousResultsService.queryHarnessIdBySuspiciousId(suspiciousId);
+        int testcaseId = suspiciousResultsService.queryTestcaseIdByHarnessId(harnessId);
+        String testcase = suspiciousResultsService.queryTestcaseCodeByTestcaseId(testcaseId);
+        Map<String, String> map = new HashMap<>(4);
         map.put("suspiciousId", String.valueOf(suspiciousId));
-        map.put("outputId", String.valueOf(outputId));
+        map.put("harnessId", String.valueOf(harnessId));
+        map.put("testcaseId", String.valueOf(testcaseId));
         map.put("testcase", testcase);
         return JSON.toJSONString(map);
     }
@@ -87,5 +89,13 @@ public class BugAnalyseController {
         }
         log.warn("执行完指令的result为:" + result);
         return result;
+    }
+
+    @RequestMapping("/submitTestcase")
+    public int submitTestcase(String suspiciousId, String testcaseId, String simplifiedCase) {
+        System.out.println("suspiciousId:" + Integer.parseInt(suspiciousId));
+        System.out.println("testcaseId:" + Integer.parseInt(testcaseId));
+        System.out.println(simplifiedCase);
+        return 1;
     }
 }

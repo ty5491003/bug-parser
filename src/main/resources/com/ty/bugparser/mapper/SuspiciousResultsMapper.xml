@@ -16,7 +16,7 @@
         SELECT * FROM SuspiciousResults WHERE assignee IS NULL
     </select>
 
-    <select id="queryARandomNoAnalysedId" resultType="_int">
+    <select id="queryRandomNoAnalysedSuspiciousId" resultType="_int">
         SELECT id, output_id
         FROM SuspiciousResults
         WHERE assignee IS NULL
@@ -24,15 +24,16 @@
         LIMIT 1
     </select>
 
-    <select id="queryAOutputIdBySuspiciousId" resultType="_int">
-        SELECT output_id FROM SuspiciousResults WHERE id = #{id}
+    <select id="queryHarnessIdBySuspiciousId" resultType="_int">
+        SELECT output_id FROM SuspiciousResults WHERE id = #{suspiciousId}
     </select>
 
-<!--    <select id="queryATestcase" resultType="map">-->
-    <select id="queryATestcaseByOutputId" resultType="string">
-        SELECT Testcases.testcase FROM Testcases
-        WHERE id = (SELECT HarnessResults.testcase FROM HarnessResults
-        WHERE HarnessResults.id = #{id})
+    <select id="queryTestcaseIdByHarnessId" resultType="_int">
+        SELECT testcase FROM HarnessResults WHERE id = #{harnessId}
+    </select>
+
+    <select id="queryTestcaseCodeByTestcaseId" resultType="string">
+        SELECT testcase FROM Testcases WHERE id = #{testcaseId}
     </select>
 
     <update id="updateSuspiciousResults" parameterType="SuspiciousResults">

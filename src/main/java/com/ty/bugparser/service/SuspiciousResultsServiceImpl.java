@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class SuspiciousResultsServiceImpl implements SuspiciousResultsService{
@@ -30,24 +29,24 @@ public class SuspiciousResultsServiceImpl implements SuspiciousResultsService{
     }
 
     @Override
-    public int queryARandomNoAnalysedId() {
-        return suspiciousResultsMapper.queryARandomNoAnalysedId();
+    public int queryRandomNoAnalysedSuspiciousId() {
+        return suspiciousResultsMapper.queryRandomNoAnalysedSuspiciousId();
     }
 
     @Override
-    public int queryAOutputIdBySuspiciousId(int SuspiciousId) {
-        return suspiciousResultsMapper.queryAOutputIdBySuspiciousId(SuspiciousId);
+    public int queryHarnessIdBySuspiciousId(int suspiciousId) {
+        return suspiciousResultsMapper.queryHarnessIdBySuspiciousId(suspiciousId);
     }
 
     @Override
-    public String queryATestcaseByOutputId(int id) {
-        return suspiciousResultsMapper.queryATestcaseByOutputId(id);
+    public int queryTestcaseIdByHarnessId(int harnessId) {
+        return suspiciousResultsMapper.queryTestcaseIdByHarnessId(harnessId);
     }
 
-    //    @Override
-//    public Map<String, Object> queryATestcase() {
-//        return suspiciousResultsMapper.queryATestcase();
-//    }
+    @Override
+    public String queryTestcaseCodeByTestcaseId(int testcaseId) {
+        return suspiciousResultsMapper.queryTestcaseCodeByTestcaseId(testcaseId);
+    }
 
 
     @Override
