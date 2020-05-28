@@ -36,6 +36,10 @@
         SELECT testcase FROM Testcases WHERE id = #{testcaseId}
     </select>
 
+    <select id="querySuspiciousResultsById" resultType="SuspiciousResults">
+        SELECT * FROM SuspiciousResults WHERE id = #{id}
+    </select>
+
     <update id="updateSuspiciousResults" parameterType="SuspiciousResults">
         UPDATE SuspiciousResults
         SET bugType=#{bugType},

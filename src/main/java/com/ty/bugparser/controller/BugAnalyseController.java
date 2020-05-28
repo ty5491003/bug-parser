@@ -2,8 +2,10 @@ package com.ty.bugparser.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.ty.bugparser.pojo.SuspiciousResults;
+import com.ty.bugparser.pojo.Testcase;
 import com.ty.bugparser.service.ExecutorImpl;
 import com.ty.bugparser.service.SuspiciousResultsService;
+import com.ty.bugparser.service.TestcaseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,9 @@ public class BugAnalyseController {
 
     @Autowired
     private SuspiciousResultsService suspiciousResultsService;
+
+    @Autowired
+    private TestcaseService testcaseService;
 
     @RequestMapping("/BugAnalyse")
     public String countNumber(Model model) {
@@ -92,10 +97,75 @@ public class BugAnalyseController {
     }
 
     @RequestMapping("/submitTestcase")
-    public int submitTestcase(String suspiciousId, String testcaseId, String simplifiedCase) {
+    @ResponseBody
+    public String submitTestcase(String suspiciousId,
+                                 String testcaseId,
+                                 String simplifiedCase,
+                                 String assignee) {
+
         System.out.println("suspiciousId:" + Integer.parseInt(suspiciousId));
         System.out.println("testcaseId:" + Integer.parseInt(testcaseId));
+        System.out.println("assignee:" + assignee);
         System.out.println(simplifiedCase);
-        return 1;
+
+        // 向SuspiciousResults的对应记录中填充assignee信息，将其视为分析过的
+        SuspiciousResults suspiciousResult = suspiciousResultsService.querySuspiciousResultsById(Integer.parseInt(suspiciousId));
+        int updateAssigneeResult = 0;
+        if (suspiciousResult != null) {
+            suspiciousResult.setAssignee(assignee);
+            updateAssigneeResult = suspiciousResultsService.updateSuspiciousResults(suspiciousResult);
+        }
+
+        // 向Testcases的对应记录中填充simplifiedCase信息
+        Testcase testcase = testcaseService.queryTestcaseById(Integer.parseInt(testcaseId));
+        int updateTestcaseResult = 0;
+        if (testcase != null) {
+            testcase.setSimplified_case(simplifiedCase);
+            updateTestcaseResult = testcaseService.updateTestcase(testcase);
+        }
+
+        // 假如两个操作都成功了，才返回 "1"，表示提交成功
+        String flag = "0";
+        if (updateAssigneeResult == 1 && updateTestcaseResult == 1) {
+            flag = "1";
+        }
+
+        System.out.println("返回值为:" + flag);
+        return flag;
     }
+
+//    @RequestMapping("/TestSubmit")
+//    @ResponseBody
+//    public String testSubmit() {
+//
+//        String suspiciousId = "146";
+//        String testcaseId = "12419";
+//        String assignee = "tianyang";
+//        String simplifiedCase = "Hello world!";
+//
+//        // 向SuspiciousResults的对应记录中填充assignee信息，将其视为分析过的
+//        SuspiciousResults suspiciousResult = suspiciousResultsService.querySuspiciousResultsById(Integer.parseInt(suspiciousId));
+//        int updateAssigneeResult = 0;
+//        if (suspiciousResult != null) {
+//            suspiciousResult.setAssignee(assignee);
+//            updateAssigneeResult = suspiciousResultsService.updateSuspiciousResults(suspiciousResult);
+//        }
+//
+//        // 向Testcases的对应记录中填充simplifiedCase信息
+//        Testcase testcase = testcaseService.queryTestcaseById(Integer.parseInt(testcaseId));
+//        int updateTestcaseResult = 0;
+//        if (testcase != null) {
+//            testcase.setSimplified_case(simplifiedCase);
+//            updateTestcaseResult = testcaseService.updateTestcase(testcase);
+//        }
+//
+//        // 假如两个操作都成功了，才返回 "1"，表示提交成功
+//        String flag = "0";
+//        if (updateAssigneeResult == 1 && updateTestcaseResult == 1) {
+//            flag = "1";
+//        }
+//
+//        System.out.println("返回值为:" + flag);
+//        return flag;
+//    }
 }

@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 @Repository
@@ -16,6 +15,8 @@ public interface SuspiciousResultsMapper {
     List<SuspiciousResults> queryAllAnalysed();
 
     List<SuspiciousResults> queryAllNoAnalysed();
+
+    SuspiciousResults querySuspiciousResultsById(int id);
 
     /**
      * 获取一个随机的没有分析过的Suspicious表中的id

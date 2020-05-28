@@ -4,10 +4,12 @@ import com.ty.bugparser.mapper.SuspiciousResultsMapper;
 import com.ty.bugparser.pojo.SuspiciousResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
 public class SuspiciousResultsServiceImpl implements SuspiciousResultsService{
 
     @Autowired
@@ -26,6 +28,11 @@ public class SuspiciousResultsServiceImpl implements SuspiciousResultsService{
     @Override
     public List<SuspiciousResults> queryAllNoAnalysed() {
         return suspiciousResultsMapper.queryAllNoAnalysed();
+    }
+
+    @Override
+    public SuspiciousResults querySuspiciousResultsById(int id) {
+        return suspiciousResultsMapper.querySuspiciousResultsById(id);
     }
 
     @Override

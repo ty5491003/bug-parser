@@ -15,6 +15,8 @@ public interface SuspiciousResultsService {
 
     List<SuspiciousResults> queryAllNoAnalysed();
 
+    SuspiciousResults querySuspiciousResultsById(int id);
+
     /**
      * 获取一个随机的没有分析过的Suspicious表中的id
      * @return int型的id
