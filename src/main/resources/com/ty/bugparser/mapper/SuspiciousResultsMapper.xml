@@ -48,7 +48,8 @@
             bugLabel=#{bugLabel},
             reason=#{reason},
             remarks=#{remarks},
-            assignee=#{assignee}
+            assignee=#{assignee},
+            submit_date=#{submit_date}
         WHERE id=#{id}
     </update>
 

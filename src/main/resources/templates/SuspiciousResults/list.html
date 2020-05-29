@@ -60,18 +60,48 @@
 					,page: true //开启分页
 
 					,cols: [ [ //表头
-						   {field: 'id', title: 'ID', sort: true, fixed: 'left', width: 70}
-						   ,{field: 'output_id', title: '用例ID', width: 80}
-						   ,{field: 'bugType', title: 'BUG表现', sort: true, width:200}
-						   ,{field: 'engine', title: '出错引擎', sort: true, width: 120}
-						   ,{field: 'reason', title: '原因分析'}
-						   ,{field: 'bugLabel', title: '标签', sort: true, width: 80}
-						   ,{field: 'assignee', title: '分析人', sort: true}
-						   ,{field: 'remarks', title: '备注'}
+						   {field: 'id', title: 'ID', sort: true, fixed: 'left', width: 100}
+						   ,{field: 'output_id', title: '用例ID', width: 100}
+						   ,{field: 'bugType', title: 'BUG表现', sort: true, width:300}
+						   // ,{field: 'engine', title: '出错引擎', sort: true, width: 120}
+						   // ,{field: 'reason', title: '原因分析'}
+						   // ,{field: 'bugLabel', title: '标签', sort: true, width: 80}
+						   ,{field: 'assignee', title: '分析人', sort: true, width:150}
+						   // ,{field: 'remarks', title: '备注'}
+						   ,{field: 'submit_date', title: '提交日期', sort: true, templet: function(d) {
+						       return showTime(d.submit_date);
+							  }}
 						   ] ]
 				  });
 				});
 			}
+
+			function showTime(tempDate)
+				{
+					// 假如从数据库中读出的毫秒数是0，那么说明是以前提交的例子，因此就不统计日期了；
+					if (tempDate === 0) {
+						return '';
+					}
+
+				    var d = new Date(tempDate); 
+				    var year = d.getFullYear();
+				    var month = d.getMonth();
+				    month++;
+				    var day = d.getDate();
+				    var hours = d.getHours();
+				    
+				    var minutes = d.getMinutes();
+				    var seconds = d.getSeconds();
+				    month = month<10 ? "0"+month:month;
+				    day = day<10 ? "0"+day:day;
+				    hours = hours<10 ? "0"+hours:hours;
+				    minutes = minutes<10 ? "0"+minutes:minutes;
+				    seconds = seconds<10 ? "0"+seconds:seconds;
+				    
+				    var time = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds;
+				    return time;
+				}
+
 		</script>
 	</body>
 </html>

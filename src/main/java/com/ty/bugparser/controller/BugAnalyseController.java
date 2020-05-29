@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,7 +95,7 @@ public class BugAnalyseController {
     }
 
     /**
-     * 提交用例，主要是给Sus表中填充字段Assignee，以及Cases表中填充精简后的字符串
+     * 提交用例，主要是给Sus表中填充字段assignee和submit_date，以及Cases表中填充精简后的字符串
      * @param suspiciousId 可疑用例的ID
      * @param testcaseId 可疑用例对应的Testcases表中的ID
      * @param simplifiedCase 精简后的测试用例代码
@@ -113,6 +114,7 @@ public class BugAnalyseController {
         int updateAssigneeResult = 0;
         if (suspiciousResult != null) {
             suspiciousResult.setAssignee(assignee);
+            suspiciousResult.setSubmit_date(System.currentTimeMillis());
             updateAssigneeResult = suspiciousResultsService.updateSuspiciousResults(suspiciousResult);
         }
 

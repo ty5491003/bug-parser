@@ -17,4 +17,5 @@ public class SuspiciousResults {
     private String reason;
     private String remarks;
     private String assignee;
+    private long submit_date;
 }
