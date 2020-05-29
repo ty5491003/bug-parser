@@ -45,19 +45,4 @@ public class LoginController {
         model.addAttribute("errorMsg", "您已注销，请重新登录！");
         return "/index.html";
     }
-
-    @RequestMapping("/modifyPassword")
-    @ResponseBody
-    public String modifyPassword(HttpSession session, String password) {
-        String username = (String)session.getAttribute("loginUser");
-        int updateUserResult = 0;
-
-        User user = userService.getUserByUsername(username);
-        if (user != null) {
-            user.setPassword(password);
-            updateUserResult = userService.updateUser(user);
-        }
-        // 修改成功返回"1"，修改失败返回"0"
-        return String.valueOf(updateUserResult);
-    }
 }

@@ -23,7 +23,7 @@
 				bottom: 0;
 				left: 0;
 				height: 440px;
-				width: 600px;
+				width: 500px;
 			}
 			#editor2 {
 				/*position: absolute;*/
@@ -32,7 +32,7 @@
 				bottom: 0;
 				left: 0;
 				height: 440px;
-				width: 600px;
+				width: 500px;
 			}
 		</style>
 
@@ -55,7 +55,7 @@
 					setValue(editor, parsed_object["testcase"]);
 
 				},
-				error: function(){ alert("Ajax出错啦！")}
+				error: function(){ alert("获取用例出错，请重试并联系tianyang!")}
 			});
 		  }
 
@@ -68,7 +68,7 @@
 						// result为该用例执行的结果，将其赋给右边的代码编辑器
 						setValue(editor2, result);
 					},
-					error: function(){ alert("Ajax出错啦！")}
+					error: function(){ alert("执行用例出错，请重试并联系tianyang!")}
 				});
 			}
 
@@ -81,7 +81,7 @@
 						// data为还原之后的测试用例
 						setValue(editor, data);
 					},
-					error: function(){ alert("Ajax出错啦！")}
+					error: function(){ alert("还原用例出错，请重试并联系tianyang!")}
 				});
 			}
 
@@ -193,26 +193,43 @@
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
 
 					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-						<h1 id="PageTitle" class="h2">分析用例</h1>
+
 						<div class="btn-group mr-2">
 							<button class="btn btn-sm btn-outline-secondary" onclick="getATestcase()">获取用例</button>
+						</div>
+
+						<div class="btn-group mr-2">
 							<button class="btn btn-sm btn-outline-secondary" onclick="run(editor.getValue())">运行</button>
 							<button class="btn btn-sm btn-outline-secondary" onclick="openSubmitWindow()">提交</button>
 							<button class="btn btn-sm btn-outline-secondary" onclick="recoverTestcase()">恢复用例</button>
 						</div>
-						<div>
-							<ul>
-								<li><span id="SuspiciousId"></span></li>
-								<li><span id="HarnessId"></span></li>
-								<li><span id="TestcaseId"></span></li>
-							</ul>
 
-						</div>
 						<div class="btn-toolbar mb-2 mb-md-0">
+						<table>
+							<tr>
+								<th>
+									<span>当前共有[[${allNumber}]]条可疑用例, 其中[[${analysedNumber}]]条已分析, 剩余[[${noAnalysedNumber}]]条需要分析</span>
+								</th>
+							</tr>
+							<tr>
+								<th>
+									<span id="SuspiciousId"></span>
+									<span id="HarnessId"></span>
+									<span id="TestcaseId"></span>
+								</th>
+							</tr>
+						</table>
 							<div>
-								<span>当前共有[[${allNumber}]]条可疑用例，其中[[${analysedNumber}]]条已分析，剩余[[${noAnalysedNumber}]]条需要分析。</span>
+
 							</div>
+							<div>
+							<ul>
+
+							</ul>
 						</div>
+						</div>
+
+
 					</div>
 
 					<!--两个代码输入框组件-->
@@ -239,7 +256,6 @@
 			editor2.setTheme("ace/theme/monokai");
 			editor2.session.setMode("ace/mode/scheme");
 			editor2.setOption("wrap", "free");
-			editor2.setReadOnly(true);   <!-- editor2为显示结果，改为只读 -->
 
 			function setValue(node, data) {
 				node.setValue(data);

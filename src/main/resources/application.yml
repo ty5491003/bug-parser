@@ -32,10 +32,10 @@ spring:
 #    url: jdbc:sqlite:/export/nisl/ty/temp/result.db
 
 #    # 服务器正式数据库
-#    url: jdbc:sqlite:/export/nisl/yhy/mutationData/qx_1st/workspace/result/result.db
+    url: jdbc:sqlite:/export/nisl/yhy/mutationData/qx_1st/workspace/result/result.db
 
     # 本地测试数据库
-    url: jdbc:sqlite:C:\临时\5-25\result_5_20_test.db
+#    url: jdbc:sqlite:C:\临时\5-25\result_5_20_test.db
 
   thymeleaf:
     mode: HTML
@@ -47,9 +47,9 @@ spring:
 #
 logging:
   file:
-    name: C:\临时\5-25\logging.txt
+#    name: C:\临时\5-25\logging.txt
 #    name: /export/nisl/ty/temp/logger/test.log
-#    name: /export/nisl/ty/temp/logger/production.log
+    name: /export/nisl/ty/temp/logger/production.log
   level:
     root: warn
 

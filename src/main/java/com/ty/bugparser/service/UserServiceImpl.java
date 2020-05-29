@@ -19,11 +19,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByUsername(String username) {
-        return userService.getUserByUsername(username);
-    }
-
-    @Override
     public int updateUser(User user) {
         return userService.updateUser(user);
     }
