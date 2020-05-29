@@ -44,7 +44,7 @@
 			// 获取一个随机的用例并填充其对应的3个ID值
 		  	function getATestcase() {
 			$.post({
-				url: "getATestcase",
+				url: "getATestcase",  // 这里的前缀是 /SuspiciousResults，因为是从那里返回来的
 				data: {},
 				success: function(data) {
 					// 获取传回的值并填充
