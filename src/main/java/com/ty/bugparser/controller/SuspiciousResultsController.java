@@ -6,6 +6,7 @@ import com.ty.bugparser.pojo.Testcase;
 import com.ty.bugparser.service.SuspiciousResultsService;
 import com.ty.bugparser.service.TestcaseService;
 import com.ty.bugparser.utils.Executor;
+import com.ty.bugparser.utils.Timer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 @Controller
 @Slf4j
@@ -31,23 +33,29 @@ public class SuspiciousResultsController {
     @Autowired
     private TestcaseService testcaseService;
 
+    @Autowired
+    private Timer timer;
+
     /**
      * 统计所有可疑用例数目，以及其中已分析和未分析的数目
-     * @param model 数据模型
      * @return 跳转到用例分析的页面
      */
-    @RequestMapping("/CountNumber")
+    @RequestMapping("/Analyse")
     public String countNumber(Model model) {
         // 获取全部结果
         List<SuspiciousResults> allResults = suspiciousResultsService.queryAllSuspiciousResults();
         int allNumber = allResults.size();
         int analysedNumber = 0;
         int noAnalysedNumber = 0;
+        int todayAnalysedNumber = 0;
 
         // 遍历一遍结果，获取到统计数据
         for (SuspiciousResults record : allResults) {
             if (record.getAssignee() != null) {
                 analysedNumber += 1;
+                if (record.getSubmit_date() != 0L && timer.isSameDayOfMillis(record.getSubmit_date(), System.currentTimeMillis())) {
+                    todayAnalysedNumber += 1;
+                }
             } else {
                 noAnalysedNumber += 1;
             }
@@ -57,8 +65,9 @@ public class SuspiciousResultsController {
         model.addAttribute("allNumber", allNumber);
         model.addAttribute("analysedNumber", analysedNumber);
         model.addAttribute("noAnalysedNumber", noAnalysedNumber);
+        model.addAttribute("todayAnalysedNumber", todayAnalysedNumber);
 
-        return "/BugAnalyse/BugAnalyse.html";
+        return "/BugAnalyse/BugAnalyse";
     }
 
 
@@ -185,4 +194,5 @@ public class SuspiciousResultsController {
 
         return flag;
     }
+
 }
