@@ -1,8 +1,10 @@
 package com.ty.bugparser.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.ty.bugparser.pojo.OriginalTestResult;
 import com.ty.bugparser.pojo.SuspiciousResults;
 import com.ty.bugparser.pojo.Testcase;
+import com.ty.bugparser.service.OriginalTestResultService;
 import com.ty.bugparser.service.SuspiciousResultsService;
 import com.ty.bugparser.service.TestcaseService;
 import com.ty.bugparser.utils.Executor;
@@ -11,9 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +37,9 @@ public class SuspiciousResultsController {
 
     @Autowired
     private TestcaseService testcaseService;
+
+    @Autowired
+    private OriginalTestResultService originalTestResultService;
 
     @Autowired
     private Timer timer;
@@ -199,4 +206,26 @@ public class SuspiciousResultsController {
         return flag;
     }
 
+    @RequestMapping("/getOriginalResult/{suspiciousId}")
+    @ResponseBody
+    public String getOriginalTestResult(@PathVariable String suspiciousId) {
+        // 获取结果列表
+        int harnessId = suspiciousResultsService.queryHarnessIdBySuspiciousId(Integer.parseInt(suspiciousId));
+        List<OriginalTestResult> originalTestResult = originalTestResultService.queryOriginalTestResultByHarnessId(harnessId);
+
+        // 将出问题的那个结果的对象的isBug字段赋值为1
+        for (OriginalTestResult testResult : originalTestResult) {
+            if (testResult.getHarnessId() == harnessId) {
+                testResult.setIsBug(1);
+            }
+        }
+
+        Map<String, Object> map = new HashMap<>(4);
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("count", originalTestResult.size());
+        map.put("data", originalTestResult);
+
+        return JSON.toJSONString(map);
+    }
 }
