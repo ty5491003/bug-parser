@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,19 +42,22 @@ public class SuspiciousResultsController {
      * @return 跳转到用例分析的页面
      */
     @RequestMapping("/Analyse")
-    public String countNumber(Model model) {
+    public String countNumber(HttpSession session, Model model) {
         // 获取全部结果
         List<SuspiciousResults> allResults = suspiciousResultsService.queryAllSuspiciousResults();
         int allNumber = allResults.size();
         int analysedNumber = 0;
         int noAnalysedNumber = 0;
         int todayAnalysedNumber = 0;
+        String loginUser = (String)session.getAttribute("loginUser");
 
         // 遍历一遍结果，获取到统计数据
         for (SuspiciousResults record : allResults) {
             if (record.getAssignee() != null) {
                 analysedNumber += 1;
-                if (record.getSubmit_date() != 0L && timer.isSameDayOfMillis(record.getSubmit_date(), System.currentTimeMillis())) {
+                if (record.getSubmit_date() != 0L
+                        && timer.isSameDayOfMillis(record.getSubmit_date(), System.currentTimeMillis())
+                        && loginUser.equals(record.getAssignee())) {
                     todayAnalysedNumber += 1;
                 }
             } else {
