@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Data
 @Component
-@ConfigurationProperties("executor")
+@ConfigurationProperties("user.executor")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Executor {

@@ -9,24 +9,24 @@ import com.ty.bugparser.service.SuspiciousResultsService;
 import com.ty.bugparser.service.TestcaseService;
 import com.ty.bugparser.utils.Executor;
 import com.ty.bugparser.utils.Timer;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
 
 @Controller
 @Slf4j
 @RequestMapping("/SuspiciousResults")
+@ConfigurationProperties("user.gettestcase")
+@Data
 public class SuspiciousResultsController {
 
     @Autowired
@@ -43,6 +43,17 @@ public class SuspiciousResultsController {
 
     @Autowired
     private Timer timer;
+
+    /**
+     * lockedSuspiciousIds:临时缓存，用来防止多用户重复读同一条数据
+     * key：SuspiciousId
+     * value：该Id被读取时的时间（毫秒数）
+     */
+    private static Map<Integer, Long> lockedSuspiciousIds = new HashMap<>();
+
+    // 这两个值将从配置文件注入
+    private int timeLimitHours;
+    private int maxUsersCount;
 
     /**
      * 统计所有可疑用例数目，以及其中已分析和未分析的数目
@@ -77,10 +88,10 @@ public class SuspiciousResultsController {
         model.addAttribute("analysedNumber", analysedNumber);
         model.addAttribute("noAnalysedNumber", noAnalysedNumber);
         model.addAttribute("todayAnalysedNumber", todayAnalysedNumber);
+        model.addAttribute("lockedTestcasesNumber", lockedSuspiciousIds.size());
 
         return "/BugAnalyse/BugAnalyse";
     }
-
 
     @RequestMapping("/queryAll")
     @ResponseBody
@@ -131,10 +142,38 @@ public class SuspiciousResultsController {
     @RequestMapping("/getATestcase")
     @ResponseBody
     public String getATestcase() {
-        int suspiciousId = suspiciousResultsService.queryRandomNoAnalysedSuspiciousId();
+        // lazy-check策略：只在每一次读用例之前，检查一下是否有锁定超时的情况：有的话解锁；没有的话再正常读；
+        List<Integer> overtimeSuspiciousIds = new ArrayList<>();
+        // timeLimitHours：超时时间（单位：小时）
+        for (Map.Entry<Integer, Long> entry : lockedSuspiciousIds.entrySet()) {
+            if (Math.abs(entry.getValue() - System.currentTimeMillis()) > timeLimitHours * 60 * 60 * 1000) {
+                overtimeSuspiciousIds.add(entry.getKey());
+            }
+        }
+        for (Integer sId : overtimeSuspiciousIds) {
+            lockedSuspiciousIds.remove(sId);
+        }
+
+        // 要保证当前读的suspiciousId是未被锁定的，并在读出后将其锁定
+        int suspiciousId;
+        int count = 0;
+        do {
+            suspiciousId = suspiciousResultsService.queryRandomNoAnalysedSuspiciousId();
+            if (count++ > maxUsersCount) {
+                suspiciousId = -1;
+                break;
+            }
+        } while(lockedSuspiciousIds.containsKey(suspiciousId));
+
+        if (suspiciousId != -1) {
+            lockedSuspiciousIds.put(suspiciousId, System.currentTimeMillis());
+        }
+        log.warn("本次获取到ID：" + suspiciousId + ", 并将其锁定;现在的locked为：" + lockedSuspiciousIds);
+
         int harnessId = suspiciousResultsService.queryHarnessIdBySuspiciousId(suspiciousId);
         int testcaseId = suspiciousResultsService.queryTestcaseIdByHarnessId(harnessId);
         String testcase = suspiciousResultsService.queryTestcaseCodeByTestcaseId(testcaseId);
+
         Map<String, String> map = new HashMap<>(4);
         map.put("suspiciousId", String.valueOf(suspiciousId));
         map.put("harnessId", String.valueOf(harnessId));
@@ -197,9 +236,10 @@ public class SuspiciousResultsController {
             updateTestcaseResult = testcaseService.updateTestcase(testcase);
         }
 
-        // 假如两个操作都成功了，才返回 "1"，表示提交成功
+        // 假如两个操作都成功了，先解锁，再返回 "1"，表示提交成功
         String flag = "0";
         if (updateAssigneeResult == 1 && updateTestcaseResult == 1) {
+            lockedSuspiciousIds.remove(Integer.valueOf(suspiciousId));
             flag = "1";
         }
 
