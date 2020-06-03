@@ -5,6 +5,7 @@
 <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0" th:fragment="topbar">
 	<a id="username" class="navbar-brand col-sm-3 col-md-2 mr-0" th:href="@{/main}" th:text="${'欢迎你, ' + session.loginUser}"></a>
 	<span th:if="${page=='BugAnalyse.html'}" style="color: white">当前共有[[${allNumber}]]条可疑用例, 其中[[${analysedNumber}]]条已分析, 剩余[[${noAnalysedNumber}]]条需要分析，其中有[[${lockedTestcasesNumber}]]条正被其他用户占用；你今日已分析[[${todayAnalysedNumber}]]条。</span>
+	<span th:if="${page=='NoExceptionBugAnalyse.html'}" style="color: white">当前共有[[${allNumber}]]条可疑用例, 其中[[${analysedNumber}]]条已分析, 剩余[[${noAnalysedNumber}]]条需要分析；你今日已分析[[${todayAnalysedNumber}]]条。</span>
 
 	<ul class="navbar-nav px-3">
 		<li class="nav-item text-nowrap">
@@ -45,16 +46,28 @@
 										<line x1="12" y1="20" x2="12" y2="4"></line>
 										<line x1="6" y1="20" x2="6" y2="14"></line>
 									</svg>
-									分析用例
+									分析异常用例
 								</a>
 							</li>
 
 							<li class="nav-item">
-								<a th:class="${page=='Query/QuerySuspiciousTestcaseByKeyword.html'?'nav-link active':'nav-link'}" th:href="@{/SuspiciousResults/QuerySuspiciousTestcaseByKeyword}">
+								<a th:class="${page=='NoExceptionBugAnalyse.html'?'nav-link active':'nav-link'}" th:href="@{/NoExceptionResults/Analyse}">
 									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bar-chart-2">
 										<line x1="18" y1="20" x2="18" y2="10"></line>
 										<line x1="12" y1="20" x2="12" y2="4"></line>
 										<line x1="6" y1="20" x2="6" y2="14"></line>
+									</svg>
+									分析输出不一致用例
+								</a>
+							</li>
+
+
+
+							<li class="nav-item">
+								<a th:class="${page=='Query/QuerySuspiciousTestcaseByKeyword.html'?'nav-link active':'nav-link'}" th:href="@{/SuspiciousResults/QuerySuspiciousTestcaseByKeyword}">
+									<svg t="1591184861559" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3804" width="20" height="20">
+										<path d="M830.486464 796.124515 672.790943 638.42797c44.959904-52.799318 72.109099-121.232412 72.109099-196.016087 0-167.084182-135.448007-302.533214-302.53219-302.533214s-302.533214 135.449031-302.533214 302.533214 135.449031 302.53219 302.533214 302.53219c74.782651 0 143.215745-27.149196 196.017111-72.109099L796.101988 830.531518c9.499249 9.499249 24.885227 9.499249 34.384476 0S839.986737 805.623764 830.486464 796.124515zM442.366829 698.401131c-141.380814 0-255.989248-114.631985-255.989248-255.989248 0-141.403341 114.608434-255.989248 255.989248-255.989248 141.37979 0 255.989248 114.585907 255.989248 255.989248C698.356077 583.769146 583.747643 698.401131 442.366829 698.401131z" p-id="3805"></path>
+										<polyline points="13 2 13 9 20 9"></polyline>
 									</svg>
 									搜索可疑用例
 								</a>
