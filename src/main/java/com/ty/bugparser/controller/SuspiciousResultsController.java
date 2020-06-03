@@ -168,7 +168,6 @@ public class SuspiciousResultsController {
         if (suspiciousId != -1) {
             lockedSuspiciousIds.put(suspiciousId, System.currentTimeMillis());
         }
-        log.warn("本次获取到ID：" + suspiciousId + ", 并将其锁定;现在的locked为：" + lockedSuspiciousIds);
 
         int harnessId = suspiciousResultsService.queryHarnessIdBySuspiciousId(suspiciousId);
         int testcaseId = suspiciousResultsService.queryTestcaseIdByHarnessId(harnessId);
@@ -267,5 +266,20 @@ public class SuspiciousResultsController {
         map.put("data", originalTestResult);
 
         return JSON.toJSONString(map);
+    }
+
+    @RequestMapping("/queryTestcase/{keyword}")
+    @ResponseBody
+    public String querySuspiciousTestcaseByKeyword(@PathVariable String keyword) {
+        List<Testcase> testcaseResults = suspiciousResultsService.querySuspiciousTestcaseByKeyword(keyword);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("count", testcaseResults.size());
+        map.put("data", testcaseResults);
+
+        return JSON.toJSONString(map);
+
     }
 }

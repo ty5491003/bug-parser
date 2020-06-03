@@ -1,6 +1,7 @@
 package com.ty.bugparser.mapper;
 
 import com.ty.bugparser.pojo.SuspiciousResults;
+import com.ty.bugparser.pojo.Testcase;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -46,5 +47,7 @@ public interface SuspiciousResultsMapper {
     String queryTestcaseCodeByTestcaseId(int testcaseId);
 
     int updateSuspiciousResults(SuspiciousResults suspiciousResults);
+
+    List<Testcase> querySuspiciousTestcaseByKeyword(String keyword);
 
 }

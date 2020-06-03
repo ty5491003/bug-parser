@@ -43,21 +43,31 @@
 
 			// 获取一个随机的用例并填充其对应的3个ID值
 		  	function getATestcase() {
-			$.post({
-				url: "getATestcase",  // 这里的前缀是 /SuspiciousResults，因为是从那里返回来的
-				data: {},
-				success: function(data) {
-					// 获取传回的值并填充
-					parsed_object = JSON.parse(data);
-					$("#SuspiciousId").text("SuspiciousId:" + parsed_object["suspiciousId"]);
-					$("#HarnessId").text("HarnessId:" + parsed_object["harnessId"]);
-					$("#TestcaseId").text("TestcaseId:" + parsed_object["testcaseId"]);
-					setValue(editor, parsed_object["testcase"]);
+		  		if (editor.getValue().length !== 0) {
+		  			let result = confirm("检测到你当前用例可能没有分析完，你确定要获取下一个用例吗？\n(这种操作会丢掉当前的分析结果并使其被暂时锁定无法分析)");
+		  			if (result === true) {
+						get();
+					}
+				} else {
+		  			get();
+				}
+		    }
 
-				},
-				error: function(){ alert("获取用例出错，可能数据库中没有可疑用例了。请重试或联系tianyang!")}
-			});
-		  }
+		    function get() {
+				$.post({
+					url: "getATestcase",  // 这里的前缀是 /SuspiciousResults，因为是从那里返回来的
+					data: {},
+					success: function(data) {
+						// 获取传回的值并填充
+						parsed_object = JSON.parse(data);
+						$("#SuspiciousId").text("SuspiciousId:" + parsed_object["suspiciousId"]);
+						$("#HarnessId").text("HarnessId:" + parsed_object["harnessId"]);
+						$("#TestcaseId").text("TestcaseId:" + parsed_object["testcaseId"]);
+						setValue(editor, parsed_object["testcase"]);
+					},
+					error: function(){ alert("获取用例出错，可能数据库中没有可疑用例了。请重试或联系tianyang!")}
+				});
+			}
 
 		  	// 用例执行的异步请求
 		    function run(code) {
@@ -92,12 +102,12 @@
 					data: {suspiciousId: parsed_object["suspiciousId"], testcaseId: parsed_object["testcaseId"],
 						simplifiedCase: editor.getValue(), assignee: $('#username').text().split(' ')[1]},
 					success: function(data) {
-						if (data === '1') {
-							alert("用例提交成功!");
-							setTimeout(function(){location.reload()}, 1000);
-						} else {
-							alert("用例提交失败，请重试!");
-						}
+						// if (data === '1') {
+						// 	alert("用例提交成功!");
+						// 	// setTimeout(function(){location.reload()}, 1000);
+						// } else {
+						// 	alert("用例提交失败，请重试!");
+						// }
 					},
 					error: function(){ alert("用例提交失败，请重试!")}
 				});
@@ -199,9 +209,14 @@
 				}
 			}
 
+			// function stopRefresh() {
+		  	// 	return "自定义内容";
+			// }
+
 		</script>
 	</head>
 
+<!--	<body onbeforeunload="return stopRefresh()">-->
 	<body>
 		<script th:src="@{/layui/layui.all.js}" charset="utf-8"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ace.js"></script>

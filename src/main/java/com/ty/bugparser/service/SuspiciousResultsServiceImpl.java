@@ -2,6 +2,7 @@ package com.ty.bugparser.service;
 
 import com.ty.bugparser.mapper.SuspiciousResultsMapper;
 import com.ty.bugparser.pojo.SuspiciousResults;
+import com.ty.bugparser.pojo.Testcase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,5 +59,10 @@ public class SuspiciousResultsServiceImpl implements SuspiciousResultsService{
     @Override
     public int updateSuspiciousResults(SuspiciousResults suspiciousResults) {
         return suspiciousResultsMapper.updateSuspiciousResults(suspiciousResults);
+    }
+
+    @Override
+    public List<Testcase> querySuspiciousTestcaseByKeyword(String keyword) {
+        return suspiciousResultsMapper.querySuspiciousTestcaseByKeyword(keyword);
     }
 }

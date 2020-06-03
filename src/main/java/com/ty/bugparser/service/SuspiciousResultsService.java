@@ -1,6 +1,7 @@
 package com.ty.bugparser.service;
 
 import com.ty.bugparser.pojo.SuspiciousResults;
+import com.ty.bugparser.pojo.Testcase;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -45,5 +46,7 @@ public interface SuspiciousResultsService {
     String queryTestcaseCodeByTestcaseId(int testcaseId);
 
     int updateSuspiciousResults(SuspiciousResults suspiciousResults);
+
+    List<Testcase> querySuspiciousTestcaseByKeyword(String keyword);
 
 }

@@ -53,4 +53,12 @@
         WHERE id=#{id}
     </update>
 
+    <select id="querySuspiciousTestcaseByKeyword" resultType="Testcase">
+        SELECT *
+        FROM Testcases t
+        WHERE
+            id IN (SELECT testcase FROM HarnessResults h, SuspiciousResults s WHERE s.output_id = h.id)
+            AND t.testcase LIKE '%' || #{keyword} || '%'
+    </select>
+
 </mapper>
