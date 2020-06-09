@@ -29,6 +29,10 @@
 								</a>
 							</li>
 
+							<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              					<span style="align-content: center">-----------------查看-----------------</span>
+            				</h6>
+
 							<li class="nav-item">
 								<a th:class="${page=='Suspicious/list.html'?'nav-link active':'nav-link'}" th:href="@{/SuspiciousResults/list}">
 									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file">
@@ -38,6 +42,20 @@
 									查看可疑用例
 								</a>
 							</li>
+
+							<li class="nav-item">
+								<a th:class="${page=='ErrorType/list.html'?'nav-link active':'nav-link'}" th:href="@{/ErrorType/list}">
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file">
+										<path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+										<polyline points="13 2 13 9 20 9"></polyline>
+									</svg>
+									查看所有类别信息
+								</a>
+							</li>
+
+							<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              					<span style="align-content: center">-----------------分析-----------------</span>
+            				</h6>
 
 							<li class="nav-item">
 								<a th:class="${page=='BugAnalyse.html'?'nav-link active':'nav-link'}" th:href="@{/SuspiciousResults/Analyse}">
@@ -61,7 +79,9 @@
 								</a>
 							</li>
 
-
+							<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              					<span style="align-content: center">-----------------搜索-----------------</span>
+            				</h6>
 
 							<li class="nav-item">
 								<a th:class="${page=='Query/QuerySuspiciousTestcaseByKeyword.html'?'nav-link active':'nav-link'}" th:href="@{/SuspiciousResults/QuerySuspiciousTestcaseByKeyword}">
