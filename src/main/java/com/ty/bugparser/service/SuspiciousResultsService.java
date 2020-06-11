@@ -49,4 +49,6 @@ public interface SuspiciousResultsService {
 
     List<Testcase> querySuspiciousTestcaseByKeyword(String keyword);
 
+    List<SuspiciousResults> querySuspiciousResultsByClassifyId(int classifyId);
+
 }

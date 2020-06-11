@@ -50,4 +50,6 @@ public interface SuspiciousResultsMapper {
 
     List<Testcase> querySuspiciousTestcaseByKeyword(String keyword);
 
+    List<SuspiciousResults> querySuspiciousResultsByClassifyId(int classifyId);
+
 }

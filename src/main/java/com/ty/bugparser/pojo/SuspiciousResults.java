@@ -17,5 +17,6 @@ public class SuspiciousResults {
     private String reason;
     private String remarks;
     private String assignee;
+    private int classifyId;
     private long submit_date;
 }

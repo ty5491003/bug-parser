@@ -65,4 +65,9 @@ public class SuspiciousResultsServiceImpl implements SuspiciousResultsService{
     public List<Testcase> querySuspiciousTestcaseByKeyword(String keyword) {
         return suspiciousResultsMapper.querySuspiciousTestcaseByKeyword(keyword);
     }
+
+    @Override
+    public List<SuspiciousResults> querySuspiciousResultsByClassifyId(int classifyId) {
+        return suspiciousResultsMapper.querySuspiciousResultsByClassifyId(classifyId);
+    }
 }

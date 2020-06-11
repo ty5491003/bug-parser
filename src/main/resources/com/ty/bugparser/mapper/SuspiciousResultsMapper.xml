@@ -61,4 +61,8 @@
             AND t.testcase LIKE '%' || #{keyword} || '%'
     </select>
 
+    <select id="querySuspiciousResultsByClassifyId" resultType="SuspiciousResults">
+        SELECT * FROM SuspiciousResults WHERE classifyId = #{classifyId}
+    </select>
+
 </mapper>
