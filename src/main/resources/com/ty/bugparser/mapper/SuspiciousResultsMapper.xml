@@ -33,6 +33,10 @@
     </select>
 
     <select id="queryTestcaseCodeByTestcaseId" resultType="string">
+        SELECT auto_simplified_testcase FROM Testcases WHERE id = #{testcaseId}
+    </select>
+
+    <select id="queryBeforeSimplifiedTestcaseByTestcaseId" resultType="string">
         SELECT testcase FROM Testcases WHERE id = #{testcaseId}
     </select>
 

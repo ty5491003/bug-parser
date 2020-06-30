@@ -45,6 +45,13 @@ public interface SuspiciousResultsService {
      */
     String queryTestcaseCodeByTestcaseId(int testcaseId);
 
+    /**
+     * 根据Testcases中的id获取到对应的auto_simplified_testcase代码内容
+     * @param testcaseId
+     * @return auto_simplified_testcase代码内容
+     */
+    String queryBeforeSimplifiedTestcaseByTestcaseId(int testcaseId);
+
     int updateSuspiciousResults(SuspiciousResults suspiciousResults);
 
     List<Testcase> querySuspiciousTestcaseByKeyword(String keyword);

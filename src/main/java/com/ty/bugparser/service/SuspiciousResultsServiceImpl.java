@@ -57,6 +57,11 @@ public class SuspiciousResultsServiceImpl implements SuspiciousResultsService{
     }
 
     @Override
+    public String queryBeforeSimplifiedTestcaseByTestcaseId(int testcaseId) {
+        return suspiciousResultsMapper.queryBeforeSimplifiedTestcaseByTestcaseId(testcaseId);
+    }
+
+    @Override
     public int updateSuspiciousResults(SuspiciousResults suspiciousResults) {
         return suspiciousResultsMapper.updateSuspiciousResults(suspiciousResults);
     }
