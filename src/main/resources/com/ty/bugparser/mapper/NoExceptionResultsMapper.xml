@@ -33,7 +33,7 @@
     </select>
 
     <select id="queryTestcaseCodeByTestcaseId" resultType="string">
-        SELECT testcase FROM Testcases WHERE id = #{testcaseId}
+        SELECT auto_simplified_testcase FROM Testcases WHERE id = #{testcaseId}
     </select>
 
     <select id="querySuspiciousResultsById" resultType="NoExceptionResults">

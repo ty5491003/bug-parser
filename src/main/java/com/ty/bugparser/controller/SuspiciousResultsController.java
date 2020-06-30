@@ -181,6 +181,12 @@ public class SuspiciousResultsController {
         return JSON.toJSONString(map);
     }
 
+    @RequestMapping("/getBeforeSimplifiedTestcase")
+    @ResponseBody
+    public String getBeforeSimplifiedTestcase(String testcaseId) {
+        return suspiciousResultsService.queryBeforeSimplifiedTestcaseByTestcaseId(Integer.parseInt(testcaseId));
+    }
+
     /**
      * 执行脚本，对传入测试用例进行测试，并返回脚本执行的结果
      * @param code 测试用例的代码
