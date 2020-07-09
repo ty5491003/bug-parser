@@ -37,7 +37,7 @@
 		</style>
 
 		<!--JQuery依赖和三个Ajax请求-->
-		<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+		<script th:src="@{/js/jquery/3.1.1/jquery.min.js}"></script>
 		<script>
 			var parsed_object;
 
@@ -245,7 +245,7 @@
 <!--	<body onbeforeunload="return stopRefresh()">-->
 	<body>
 		<script th:src="@{/layui/layui.all.js}" charset="utf-8"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.11/ace.js"></script>
+		<script src="/ace/src-min-noconflict/ace.js"></script>
 
 		<div th:replace="~{/commons/commons::topbar(page='NoExceptionBugAnalyse.html')}"></div>
 
