@@ -4,7 +4,7 @@ user:
   # `bash /export/nisl/yhy/javascriptFuzzingOther/test/ty.sh /export/nisl/ty/temp/randomName.js`
   executor:
     prefix: bash
-    bashFilePath: /export/nisl/yhy/javascriptFuzzingOther/test/ty.sh
+    bashFilePath: /export/nisl/yhy/javascriptFuzzingOther/test/ty_master_paper.sh
     tempFileDir: /export/nisl/ty/temp/
 
   gettestcase:
